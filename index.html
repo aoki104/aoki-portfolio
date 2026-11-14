@@ -209,6 +209,52 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
 @media (prefers-reduced-motion: reduce) {
   .term .cur, .tray .led { animation: none; }
 }
+
+/* About: ID photo */
+.about-grid { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr); gap: clamp(20px, 4vw, 44px); align-items: start; }
+.idcard { position: relative; margin: 6px 0 0 6px; padding: 10px 10px 6px; background: #fff; border: 1px solid var(--ink); box-shadow: 7px 7px 0 var(--blue); transform: rotate(-3deg); }
+.idcard::before { /* crop marks */
+  content: ""; position: absolute; inset: -9px; pointer-events: none;
+  background:
+    linear-gradient(var(--ink), var(--ink)) 0 0 / 14px 1px no-repeat, linear-gradient(var(--ink), var(--ink)) 0 0 / 1px 14px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) 100% 100% / 14px 1px no-repeat, linear-gradient(var(--ink), var(--ink)) 100% 100% / 1px 14px no-repeat;
+}
+.idcard::after { /* stamp */
+  content: "104"; position: absolute; right: -16px; bottom: 26px; width: 58px; height: 58px; border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--display); font-size: 11px; color: var(--ink);
+  background: var(--accent); border: 2px solid var(--ink); transform: rotate(14deg);
+}
+.id-photo { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #6ccf6b url(id-photo.jpg) center / cover; border: 1px solid var(--ink); }
+.id-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.id-photo::before, .id-photo::after { content: ""; position: absolute; inset: 0; background: inherit; border: 0; opacity: 0; }
+.id-photo::before { animation: ph1 7s steps(1, end) infinite; }
+.id-photo::after { animation: ph2 4.6s steps(1, end) infinite; }
+@keyframes ph1 {
+  0%, 90%, 100% { opacity: 0; }
+  91% { opacity: 1; clip-path: inset(18% 0 68% 0); transform: translateX(-12px); }
+  93% { opacity: 1; clip-path: inset(52% 0 30% 0); transform: translateX(9px); }
+  95% { opacity: 1; clip-path: inset(36% 0 55% 0); transform: translateX(-6px); filter: hue-rotate(110deg) saturate(1.6); }
+  97% { opacity: 0; }
+}
+@keyframes ph2 {
+  0%, 94%, 100% { opacity: 0; }
+  95% { opacity: 1; clip-path: inset(70% 0 12% 0); transform: translateX(14px); filter: hue-rotate(200deg); }
+  97% { opacity: 1; clip-path: inset(8% 0 84% 0); transform: translateX(-8px); }
+  98% { opacity: 0; }
+}
+.idcard figcaption { display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap; margin-top: 6px; font-size: 11px; line-height: 1.4; color: var(--ink); }
+
+/* Text glitch */
+.glitching { text-shadow: 2px 0 var(--pink), -2px 0 var(--mint); }
+.about p.glitching, .who.glitching, .meta.glitching { text-shadow: none; }
+
+@media (max-width: 720px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .idcard { width: min(210px, 62%); margin-bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .id-photo::before, .id-photo::after { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -239,7 +285,7 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
             <span class="q" aria-hidden="true">!</span>
             <div>
               <p class="copy">生成AI × 映像制作。<br>20年の演出を、AIで撮る。</p>
-              <p class="who">青木俊樹 / Aoki Toshiki<br>NCG ENTERTAINMENT CCO・プロデューサー</p>
+              <p class="who">青木俊樹 / Aoki Toshiki<br>NCG ENTERTAINMENT CCO（最高クリエイティブ責任者）・プロデューサー</p>
             </div>
           </div>
           <div class="dialog-actions">
@@ -264,11 +310,20 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
       </div>
       <div class="cols">
         <div class="body">
-          <p>映像ディレクターとして20年以上、シネマティック、実写、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
-          <p>日本コロムビアのAIクリエイティブコンテスト「COLOTEK」で2度のグランプリを受賞。2026年4月から、日本コロムビアグループのAIクリエイター共創レーベル NCG ENTERTAINMENT で CCO とプロデューサーを務めています。</p>
+          <div class="about-grid">
+            <figure class="idcard">
+              <div class="id-photo"><img src="id-photo.jpg" alt="青木俊樹のポートレート" width="600" height="800"></div>
+              <figcaption class="mono"><span>証明写真</span><span>30×40mm</span><span>No.104</span></figcaption>
+            </figure>
+            <div>
+              <p>映像ディレクターとして20年以上、シネマティック、実写、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
+              <p>日本コロムビアグループのAIクリエイター共創レーベル NCG ENTERTAINMENT CCO（最高クリエイティブ責任者）・プロデューサーを務めています。</p>
+            </div>
+          </div>
 
           <h3>AWARDS</h3>
           <ul class="awards">
+            <li><b>TapNow × Kling AI「Arena Peak Asia Tokyo」</b><span>日本エリア賞（TALK BACK）</span></li>
             <li><b>CapCutハッカソン2026</b><span>最優秀賞</span></li>
             <li><b>日本コロムビア COLOTEK</b><span>グランプリ 最優秀賞（2作品）</span></li>
             <li><b>大阪AI文化万博</b><span>大賞</span></li>
@@ -290,7 +345,7 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
       </div>
       <ol class="films">
         <li class="film lead"><a href="https://youtu.be/yCrWCyHPYPA" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/yCrWCyHPYPA/maxresdefault.jpg" data-yt="yCrWCyHPYPA" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-01</span></span><p class="title">HOLD</p><p class="meta">AI Short Film　CapCut Showcase</p></a></li>
-        <li class="film"><a href="https://youtu.be/_4ed0oZvUtg" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/_4ed0oZvUtg/maxresdefault.jpg" data-yt="_4ed0oZvUtg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-02</span></span><p class="title">TALK BACK ―私の人形は口が悪い―</p></a></li>
+        <li class="film"><a href="https://youtu.be/_4ed0oZvUtg" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/_4ed0oZvUtg/maxresdefault.jpg" data-yt="_4ed0oZvUtg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-02</span></span><p class="title">TALK BACK ―私の人形は口が悪い―</p><p class="meta">Team ARS　AoKi¹⁰⁴ / りあ / せんたく　<span class="won">Arena Peak Asia Tokyo 日本エリア賞</span></p></a></li>
         <li class="film"><a href="https://youtu.be/9Exn2zhxBYg" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/9Exn2zhxBYg/maxresdefault.jpg" data-yt="9Exn2zhxBYg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-03</span></span><p class="title">夏祭</p><p class="meta">Int.Lab 共作　<span class="won">CapCutハッカソン2026 最優秀賞</span></p></a></li>
         <li class="film"><a href="https://youtu.be/EPDbjlAPv5s" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/EPDbjlAPv5s/maxresdefault.jpg" data-yt="EPDbjlAPv5s" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-04</span></span><p class="title">奈落 -The Abyss, Nameless-</p></a></li>
         <li class="film"><a href="https://youtu.be/fGlebk_uwnI" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/fGlebk_uwnI/maxresdefault.jpg" data-yt="fGlebk_uwnI" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-05</span></span><p class="title">黒淵</p><p class="meta">Int.Lab anT Project　ソニーストア銀座 上映　<span class="won">大阪AI文化万博 最優秀賞</span></p></a></li>
@@ -436,11 +491,11 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   });
 })();
 
-// Mosaics: generated blocks of checker, stripe, dot and hatch in two colours. The hero mosaic keeps
-// redrawing one block at a time.
+// Mosaics: generated blocks of checker, stripe, dot and hatch. They never sit still: a defrag head
+// walks along rows rewriting cells, blocks get replaced, and bands slip sideways like a bad signal.
 (function () {
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var U = 8, BLUE = '#2a2cff', LIGHT = '#c9cfff', WHITE = '#ffffff', PINK = '#ffa6d3', MINT = '#93ead9';
+  var U = 8, BLUE = '#2a2cff', LIGHT = '#c9cfff', WHITE = '#ffffff', PINK = '#ffa6d3', MINT = '#93ead9', GREEN = '#12e834';
   function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
   function pick(r, a) { return a[Math.floor(r() * a.length)]; }
   function tile(ctx, x, y, w, h, r) {
@@ -482,39 +537,109 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     tile(ctx, x, y, w, h, r);
     return [x, y, w, h];
   }
-  var canvases = [].slice.call(document.querySelectorAll('canvas.mosaic')), live = null, timer = null;
+  var canvases = [].slice.call(document.querySelectorAll('canvas.mosaic')), items = [], timer = null, ticks = 0;
   function paint() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    live = null;
+    items = [];
     canvases.forEach(function (cv, k) {
       var W = cv.clientWidth, H = cv.clientHeight;
       if (!W || !H) return;
       cv.width = W * dpr; cv.height = H * dpr;
       var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var r = rng(104 + k * 977), i, n, x, w;
-      if (cv.classList.contains('strip')) {
+      var r = rng(104 + k * 977), strip = cv.classList.contains('strip'), i, n, x, w;
+      if (strip) {
         for (x = 0; x < W; x += w) { w = pick(r, [4, 6, 8, 12, 16, 20]) * U; if (r() < .82) tile(ctx, x, 0, w, H, r); }
       } else {
         n = Math.round(W * H / 15000);
         for (i = 0; i < n; i++) place(ctx, W, H, r);
-        if (cv.hasAttribute('data-live')) live = { ctx: ctx, W: W, H: H, r: rng(Date.now() >>> 0) };
+      }
+      items.push({ cv: cv, ctx: ctx, W: W, H: H, dpr: dpr, strip: strip, C: strip ? 8 : 16, r: rng((Date.now() + k * 7919) >>> 0), cx: 0, cy: 0, run: 0 });
+    });
+  }
+  function onscreen(it) { var b = it.cv.getBoundingClientRect(); return b.bottom > 0 && b.top < window.innerHeight; }
+  function slip(it) { // a band slides sideways
+    var h = pick(it.r, [4, 8, 8, 16, 24, 40]), y = Math.floor(it.r() * it.H / 8) * 8, dx = pick(it.r, [-64, -32, -16, -8, 8, 16, 32, 64]);
+    h = Math.min(h, it.H - y);
+    if (h > 0) it.ctx.drawImage(it.cv, 0, y * it.dpr, it.W * it.dpr, h * it.dpr, dx, y, it.W, h);
+  }
+  function defrag(it) { // the head settles the cell it stood on, then steps on
+    var C = it.C, r = it.r, v;
+    if (it.run <= 0) { it.cy = Math.floor(r() * it.H / C) * C; it.cx = Math.floor(r() * it.W / C) * C; it.run = 8 + Math.floor(r() * 40); }
+    v = r();
+    if (v < .93) { it.ctx.fillStyle = v < .5 ? BLUE : v < .7 ? WHITE : v < .88 ? LIGHT : PINK; it.ctx.fillRect(it.cx, it.cy, C - 1, C - 1); }
+    else it.ctx.clearRect(it.cx, it.cy, C, C);
+    it.cx += C; it.run--;
+    if (it.cx >= it.W) { it.cx = 0; it.cy += C; if (it.cy >= it.H) it.cy = 0; }
+    it.ctx.fillStyle = GREEN; it.ctx.fillRect(it.cx, it.cy, C - 1, C - 1);
+  }
+  function step() {
+    if (document.hidden) return;
+    ticks++;
+    items.forEach(function (it) {
+      if (!onscreen(it)) return;
+      var r = it.r, x, w;
+      defrag(it);
+      if (it.strip) {
+        if (r() < .08) { x = Math.floor(r() * it.W / 16) * 16; w = pick(r, [4, 6, 8, 12]) * U; it.ctx.clearRect(x, 0, w, it.H); if (r() < .85) tile(it.ctx, x, 0, w, it.H, r); }
+        if (r() < .04) slip(it);
+      } else {
+        if (ticks % 7 === 0) {
+          if (r() < .4) it.ctx.clearRect(Math.floor(r() * it.W / 16) * 16, Math.floor(r() * it.H / 16) * 16, pick(r, [6, 8, 12, 16]) * U, pick(r, [4, 6, 8]) * U);
+          else place(it.ctx, it.W, it.H, r);
+        }
+        if (r() < .07) slip(it);
       }
     });
   }
-  function step() {
-    if (!live || document.hidden) return;
-    if (live.r() < .4) {
-      var w = pick(live.r, [6, 8, 12, 16]) * U, h = pick(live.r, [4, 6, 8]) * U;
-      live.ctx.clearRect(Math.floor(live.r() * live.W / (U * 2)) * U * 2, Math.floor(live.r() * live.H / (U * 2)) * U * 2, w, h);
-    } else place(live.ctx, live.W, live.H, live.r);
-  }
   var lastW = 0, wait;
-  function boot() { lastW = window.innerWidth; paint(); if (!still && !timer) timer = setInterval(step, 1100); }
+  function boot() { lastW = window.innerWidth; paint(); if (!still && !timer) timer = setInterval(step, 120); }
   window.addEventListener('resize', function () {
     if (window.innerWidth === lastW) return;
     clearTimeout(wait); wait = setTimeout(boot, 200);
   });
   boot();
+})();
+
+// Text glitch: now and then a few characters of some visible text scramble for a moment, then recover.
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SEL = 'h1 .slab, h2, h3, .copy, .who, nav.main a, .btn, .about p, .awards b, .awards span, .film .title, .film .meta, .cue .title, .cue .tc, .sns a, .mail, footer span';
+  var WIDE = '▓▒░■□◆◇※〓╳▚▞', NARROW = '#%&$@*+=<>/\\|01';
+  var busy = false;
+  function textNodes(el) {
+    var out = [], w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
+    while ((n = w.nextNode())) if (n.nodeValue.replace(/\s/g, '').length > 1) out.push(n);
+    return out;
+  }
+  function visible(el) { var b = el.getBoundingClientRect(); return b.width > 0 && b.bottom > 60 && b.top < window.innerHeight; }
+  function scramble(src, at, len) {
+    var out = '', i, ch;
+    for (i = 0; i < src.length; i++) {
+      ch = src.charAt(i);
+      if (i >= at && i < at + len && !/\s/.test(ch)) {
+        var set = ch.charCodeAt(0) > 0x2E7F ? WIDE : NARROW;
+        ch = set.charAt(Math.floor(Math.random() * set.length));
+      }
+      out += ch;
+    }
+    return out;
+  }
+  function fire() {
+    if (busy || document.hidden) return;
+    var els = [].slice.call(document.querySelectorAll(SEL)).filter(visible);
+    if (!els.length) return;
+    var el = els[Math.floor(Math.random() * els.length)], nodes = textNodes(el);
+    if (!nodes.length) return;
+    var node = nodes[Math.floor(Math.random() * nodes.length)], src = node.nodeValue;
+    var len = Math.min(src.length, 2 + Math.floor(Math.random() * 6)), at = Math.floor(Math.random() * (src.length - len + 1));
+    var frames = 3 + Math.floor(Math.random() * 3), n = 0;
+    busy = true; el.classList.add('glitching');
+    (function frame() {
+      if (n++ < frames) { node.nodeValue = scramble(src, at, len); setTimeout(frame, 70); }
+      else { node.nodeValue = src; el.classList.remove('glitching'); busy = false; }
+    })();
+  }
+  (function loop() { fire(); setTimeout(loop, 900 + Math.random() * 1900); })();
 })();
 
 // Terminal: the site being vibe-coded, typed one character at a time, forever.
