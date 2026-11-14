@@ -7,7 +7,7 @@
 <meta name="description" content="AoKi¹⁰⁴（青木俊樹）生成AI × 映像制作。MV、アニメーション、企業映像のディレクション。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Luckiest+Guy&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* Layout idea: a newtro desktop crossed with a two-colour pixel poster. Periwinkle wallpaper, old-style
    program windows, and generated mosaics of checker, stripe and dot blocks in electric blue.
@@ -255,6 +255,32 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
 @media (prefers-reduced-motion: reduce) {
   .id-photo::before, .id-photo::after { animation: none; }
 }
+
+/* Stamp, stickers */
+.idcard::after { content: "CCO"; width: 70px; height: 70px; right: -22px; bottom: 22px; font-family: "Luckiest Guy", "Arial Black", Impact, sans-serif; font-size: 23px; letter-spacing: .02em; padding-top: 5px; }
+.about .titles { font-size: 17px; line-height: 1.9; padding: 8px 12px; border-left: 6px solid var(--accent); background: var(--win); width: fit-content; max-width: 100%; }
+.stickers { position: relative; z-index: 1; display: flex; gap: 12px; align-items: flex-start; margin: 4px 0 0 2px; }
+.sticker { display: block; background: #fff; padding: 5px; border-radius: 12px; box-shadow: 0 0 0 1px var(--edge-dark), 3px 4px 0 rgba(42, 37, 82, .35); }
+.sticker img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.sticker.ncg { width: 76px; transform: rotate(8deg); margin-top: -10px; }
+.sticker.grp { width: 132px; transform: rotate(-5deg); margin-top: 16px; }
+
+/* Pixel pets */
+section { position: relative; }
+section > .wrap { position: relative; z-index: 1; }
+canvas.sprite { display: block; image-rendering: pixelated; }
+.whale { position: fixed; right: 14px; bottom: 14px; z-index: 9; pointer-events: none; animation: bob 2.4s steps(4, end) infinite; filter: drop-shadow(3px 3px 0 rgba(42, 37, 82, .35)); }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+.peek { position: absolute; top: 0; z-index: 0; pointer-events: none; transform: translateY(8%); transition: transform .55s steps(7, end); }
+.peek.up { transform: translateY(-78%); }
+.peek.flip canvas { transform: scaleX(-1); }
+
+@media (max-width: 720px) {
+  .whale { right: 8px; bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .whale { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -285,7 +311,7 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
             <span class="q" aria-hidden="true">!</span>
             <div>
               <p class="copy">生成AI × 映像制作。<br>20年の演出を、AIで撮る。</p>
-              <p class="who">青木俊樹 / Aoki Toshiki<br>NCG ENTERTAINMENT CCO（最高クリエイティブ責任者）・プロデューサー</p>
+              <p class="who">青木俊樹 / Aoki Toshiki<br>NCG／CCO（最高クリエイティブ責任者）<br>NCG ENTERTAINMENT／プロデューサー</p>
             </div>
           </div>
           <div class="dialog-actions">
@@ -311,13 +337,20 @@ h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
       <div class="cols">
         <div class="body">
           <div class="about-grid">
-            <figure class="idcard">
+            <div class="id-col">
+              <figure class="idcard">
               <div class="id-photo"><img src="id-photo.jpg" alt="青木俊樹のポートレート" width="600" height="800"></div>
               <figcaption class="mono"><span>証明写真</span><span>30×40mm</span><span>No.104</span></figcaption>
             </figure>
+              <div class="stickers">
+                <span class="sticker ncg"><img src="sticker-ncg-ent.png" alt="NCG ENTERTAINMENT" width="320" height="377"></span>
+                <span class="sticker grp"><img src="sticker-nc-group.png" alt="NIPPON COLUMBIA GROUP" width="520" height="236"></span>
+              </div>
+            </div>
             <div>
-              <p>映像ディレクターとして20年以上、シネマティック、実写、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
-              <p>日本コロムビアグループのAIクリエイター共創レーベル NCG ENTERTAINMENT CCO（最高クリエイティブ責任者）・プロデューサーを務めています。</p>
+              <p>映像ディレクターとして20年以上、映像制作、VFX、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
+              <p class="titles">NCG／CCO（最高クリエイティブ責任者）<br>NCG ENTERTAINMENT／プロデューサー</p>
+              <p>NCG ENTERTAINMENT は、日本コロムビアグループのAIクリエイター共創レーベルです。</p>
             </div>
           </div>
 
@@ -691,6 +724,93 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     }
   }
   next();
+})();
+
+// Pixel pets, drawn here from small character maps. A whale stays fixed in the corner of the screen;
+// dolphins pop up from behind the windows now and then.
+(function () {
+  var PAL = { d: '#1b1f6b', b: '#2f6bff', l: '#9fc2ff', w: '#ffffff', k: '#15123a', t: '#35c3e8', u: '#bff0ff' };
+  var WHALE = [
+    '......l.l',
+    '.......l',
+    '.......l..............dd',
+    '....dddddddddd.......dbbd',
+    '..ddbbbbbbbbbbdd.....dbbd',
+    '.dbbbbbbbbbbbbbbdd..dbbd',
+    'dbbbbbbbbbbbbbbbbbddbbbd',
+    'dbbwkbbbbbbbbbbbbbbbbbd',
+    'dbbkkbbbbbbbbbbbbbbbbd',
+    'dbbbbbbbbbbbbbbbbbbbd',
+    'dwwwwbbbbbbbbbbbbbbd',
+    '.dwwwwwwwbbbbdbbbdd',
+    '..ddwwwwwwwwwddbd',
+    '....dddddddddd.dd'
+  ];
+  var DOLPHIN = [
+    '......dddd',
+    '....ddttttdd',
+    '...dttttttttd',
+    '..dttttttttttd',
+    '.dttwkttttttttd',
+    'ddttkktttttttttd',
+    'duuuttttttttttttd',
+    '.ddduuttttttttttd',
+    '...duuuttttttttd',
+    '...duuuutttttttdd',
+    '...duuuuttttttttdd',
+    '...duuuutttttttd',
+    '...duuuuttttttd',
+    '...duuuuttttttd',
+    '...duuuuttttttd',
+    '...duuuuttttttd'
+  ];
+  function sprite(rows, scale, skip) {
+    var w = 0, cv = document.createElement('canvas'), ctx, x, y, c;
+    rows.forEach(function (r) { w = Math.max(w, r.length); });
+    cv.width = w; cv.height = rows.length; cv.className = 'sprite';
+    cv.style.width = w * scale + 'px'; cv.style.height = rows.length * scale + 'px';
+    ctx = cv.getContext('2d');
+    cv.redraw = function (skipRows) {
+      ctx.clearRect(0, 0, w, rows.length);
+      for (y = skipRows || 0; y < rows.length; y++) for (x = 0; x < rows[y].length; x++) {
+        c = PAL[rows[y].charAt(x)];
+        if (c) { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); }
+      }
+    };
+    cv.redraw(skip);
+    return cv;
+  }
+  var small = window.matchMedia('(max-width: 720px)').matches;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Whale: fixed to the screen corner, spouting.
+  var box = document.createElement('div'); box.className = 'whale'; box.setAttribute('aria-hidden', 'true');
+  var whale = sprite(WHALE, small ? 3 : 4, 0), spout = true;
+  box.appendChild(whale); document.body.appendChild(box);
+  if (still) return;
+  setInterval(function () { spout = !spout; whale.redraw(spout ? 0 : 0); if (!spout) { var c = whale.getContext('2d'); c.clearRect(0, 0, whale.width, 2); } }, 700);
+
+  // Dolphins: one at a time, from behind a window that is on screen.
+  var busy = false;
+  function peek() {
+    if (busy || document.hidden) return;
+    var wins = [].slice.call(document.querySelectorAll('section')).filter(function (sec) {
+      var top = sec.getBoundingClientRect().top; return top > 110 && top < window.innerHeight - 40;
+    });
+    if (!wins.length) return;
+    var sec = wins[Math.floor(Math.random() * wins.length)], win = sec.querySelector('.wrap');
+    var el = document.createElement('div'); el.className = 'peek' + (Math.random() < .5 ? ' flip' : ''); el.setAttribute('aria-hidden', 'true');
+    var cv = sprite(DOLPHIN, small ? 3 : 4, 0);
+    el.appendChild(cv);
+    var span = Math.max(0, win.offsetWidth - parseInt(cv.style.width, 10) - 40);
+    el.style.left = (win.offsetLeft + 20 + Math.random() * span) + 'px';
+    sec.appendChild(el);
+    busy = true;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('up'); }); });
+    setTimeout(function () { el.classList.remove('up'); }, 1500 + Math.random() * 1400);
+    setTimeout(function () { el.remove(); busy = false; }, 3800);
+  }
+  (function loop() { peek(); setTimeout(loop, 3500 + Math.random() * 5000); })();
 })();
 </script>
 </body>
