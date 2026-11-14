@@ -120,6 +120,9 @@ h3 { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--m
 .film.lead .title { font-size: clamp(24px, 3.6vw, 42px); }
 .film .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 .film .won { color: var(--accent); }
+.film.playing > a .frame { display: none; }
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.film.playing > a .title { margin-top: 14px; }
 h3.more { margin-bottom: 16px; }
 
 /* Collaborators */
@@ -342,6 +345,45 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   img.addEventListener('load', function () { if (img.naturalWidth <= 120 && !img.dataset.fb) fallback(); });
   if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 120) fallback();
 });
+
+// Inline playback: tapping a thumbnail swaps it for the YouTube player, on desktop and phone.
+// Inside an embedding frame (such as a preview) the link opens YouTube instead.
+(function () {
+  var framed = false;
+  try { framed = window.self !== window.top; } catch (e) { framed = true; }
+  if (framed) return;
+  var current = null;
+  function stop() {
+    if (!current) return;
+    var pl = current.querySelector('.player');
+    if (pl) pl.remove();
+    current.classList.remove('playing');
+    current = null;
+  }
+  document.querySelectorAll('.film > a').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey) return;
+      var img = a.querySelector('img[data-yt]');
+      var id = img ? img.dataset.yt : (a.href.split('/').pop() || '');
+      if (!id) return;
+      ev.preventDefault();
+      stop();
+      var li = a.parentNode;
+      var box = document.createElement('div');
+      box.className = 'frame player';
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&playsinline=1&rel=0';
+      f.title = (a.querySelector('.title') || a).textContent;
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true;
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      box.appendChild(f);
+      li.insertBefore(box, a);
+      li.classList.add('playing');
+      current = li;
+    });
+  });
+})();
 </script>
 </body>
 </html>
