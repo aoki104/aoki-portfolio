@@ -7,11 +7,12 @@
 <meta name="description" content="AoKi¹⁰⁴（青木俊樹）生成AI × 映像制作。MV、アニメーション、企業映像のディレクション。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Rampart+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: a newtro desktop. Periwinkle wallpaper with a white grid, every section an old-style
-   program window with a gradient title bar and bevelled edges, pastel sticker chips, one vivid green
-   for the things you press. Single light theme by choice. */
+/* Layout idea: a newtro desktop crossed with a two-colour pixel poster. Periwinkle wallpaper, old-style
+   program windows, and generated mosaics of checker, stripe and dot blocks in electric blue.
+   Every letter is a dot-matrix or square face. A terminal window keeps typing: the site is always
+   being vibe-coded. Single light theme by choice. */
 :root {
   color-scheme: light;
   --desk: #7c87d0;
@@ -25,10 +26,12 @@
   --mint: #93ead9;
   --lav: #c3b4ff;
   --accent: #12e834;
-  --bar: linear-gradient(90deg, #4f58c4 0%, #9a7fea 55%, #ffa6d3 100%);
-  --display: "Rampart One", "Hiragino Kaku Gothic StdN", "Yu Gothic", sans-serif;
-  --pixel: "DotGothic16", "MS Gothic", "Osaka-Mono", monospace;
-  --body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --bar: linear-gradient(90deg, #2a2cff 0%, #7a5cf0 60%, #ffa6d3 100%);
+  --display: "Press Start 2P", "DotGothic16", monospace;
+  --pixel: "Silkscreen", "DotGothic16", "MS Gothic", monospace;
+  --body: "DotGothic16", "MS Gothic", "Osaka-Mono", monospace;
+  --blue: #2a2cff;
+  --term: #15123a;
   --pad: clamp(16px, 3vw, 32px);
   --gutter: clamp(14px, 4vw, 48px);
 }
@@ -162,6 +165,50 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   section > .wrap { box-shadow: 6px 6px 0 rgba(42, 37, 82, .35); }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---- Pixel-poster layer ---- */
+body { letter-spacing: .02em; line-height: 1.9; }
+.cue .title, .film .title, .awards b { font-weight: 400; }
+nav.main a, .brand { font-size: 13px; }
+.brand { font-family: var(--display); font-size: 11px; padding: 7px 10px 5px; }
+h2 { font-size: 16px; }
+.btn, .sns a { font-size: 14px; }
+.mail { font-family: var(--body); }
+
+/* Generated mosaics */
+canvas.mosaic { display: block; image-rendering: pixelated; }
+.hero::before, .hero::after { content: none; }
+.hero > canvas.mosaic { position: absolute; inset: 0; width: 100%; height: 100%; }
+canvas.strip { width: 100%; height: 40px; margin: 0 0 clamp(28px, 5vw, 56px); }
+
+/* Name on a solid slab, poster style */
+h1 { font-size: clamp(42px, 12.5vw, 150px); line-height: 1.15; text-shadow: none; }
+h1 .slab { display: inline-block; background: var(--blue); color: #fff; padding: .2em .22em .08em; box-shadow: .09em .09em 0 var(--ink); }
+h1 sup { font-size: .36em; top: 0; margin-left: .1em; }
+
+/* Hero windows */
+.desk { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(16px, 2.6vw, 28px); align-items: start; margin-top: clamp(22px, 4vw, 44px); }
+.dialog { max-width: none; margin: 0; }
+.term-win { margin-top: clamp(0px, 3vw, 36px); background: var(--win); border: 2px solid; border-color: var(--edge-light) var(--edge-dark) var(--edge-dark) var(--edge-light); box-shadow: 8px 8px 0 rgba(42, 37, 82, .35); }
+.term { margin: 6px; height: 13.2em; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; background: var(--term); color: var(--accent); padding: 10px 12px; font-family: var(--body); font-size: 14px; line-height: 1.6; border: 2px solid; border-color: var(--edge-dark) var(--edge-light) var(--edge-light) var(--edge-dark); }
+.term div { white-space: pre-wrap; overflow-wrap: anywhere; }
+.term .ask { color: var(--pink); }
+.term .ok { color: var(--mint); }
+.term .cur { display: inline-block; width: .6em; height: 1em; margin-left: 2px; vertical-align: -.12em; background: var(--accent); animation: cur 1s steps(2, end) infinite; }
+@keyframes cur { 50% { opacity: 0; } }
+
+/* Taskbar tray */
+.tray { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; padding: 3px 10px; border: 2px solid; border-color: var(--edge-dark) var(--edge-light) var(--edge-light) var(--edge-dark); }
+.tray .led { width: 9px; height: 9px; background: var(--accent); border: 1px solid var(--ink); animation: cur 1.2s steps(2, end) infinite; }
+
+@media (max-width: 720px) {
+  .desk { grid-template-columns: 1fr; }
+  .term-win { margin-top: 0; }
+  .tray-t { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .term .cur, .tray .led { animation: none; }
+}
 </style>
 </head>
 <body>
@@ -175,32 +222,40 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <a href="#news">NEWS</a>
       <a class="cta" href="#contact">CONTACT</a>
     </nav>
-    <span class="clock mono" id="clock" aria-hidden="true">--:--</span>
+    <span class="tray mono" aria-hidden="true"><i class="led"></i><span class="tray-t">CODING</span><span id="clock">--:--</span></span>
   </div>
 </header>
 
 <main id="top">
 
   <div class="hero">
+    <canvas class="mosaic" data-live aria-hidden="true"></canvas>
     <div class="wrap">
-      <h1>AoKi<sup>104</sup></h1>
-      <div class="dialog">
-        <div class="bar"><span>AoKi104.exe</span></div>
-        <div class="dialog-body">
-          <span class="q" aria-hidden="true">!</span>
-          <div>
-            <p class="copy">生成AI × 映像制作。<br>20年の演出を、AIで撮る。</p>
-            <p class="who">青木俊樹 / Aoki Toshiki<br>NCG ENTERTAINMENT CCO・プロデューサー</p>
+      <h1><span class="slab">AoKi<sup>104</sup></span></h1>
+      <div class="desk">
+        <div class="dialog">
+          <div class="bar"><span>AoKi104.exe</span></div>
+          <div class="dialog-body">
+            <span class="q" aria-hidden="true">!</span>
+            <div>
+              <p class="copy">生成AI × 映像制作。<br>20年の演出を、AIで撮る。</p>
+              <p class="who">青木俊樹 / Aoki Toshiki<br>NCG ENTERTAINMENT CCO・プロデューサー</p>
+            </div>
+          </div>
+          <div class="dialog-actions">
+            <a class="btn primary" href="#works">&#9654; Works</a>
+            <a class="btn" href="#contact">Contact</a>
           </div>
         </div>
-        <div class="dialog-actions">
-          <a class="btn primary" href="#works">&#9654; Works</a>
-          <a class="btn" href="#contact">Contact</a>
+        <div class="term-win" aria-hidden="true">
+          <div class="bar"><span>vibe-coding.exe</span></div>
+          <div class="term" id="term"></div>
         </div>
       </div>
     </div>
   </div>
 
+  <canvas class="mosaic strip" aria-hidden="true"></canvas>
   <section id="about" class="about">
     <div class="wrap">
       <div class="head">
@@ -226,6 +281,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     </div>
   </section>
 
+  <canvas class="mosaic strip" aria-hidden="true"></canvas>
   <section id="works">
     <div class="wrap">
       <div class="head">
@@ -258,6 +314,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     </div>
   </section>
 
+  <canvas class="mosaic strip" aria-hidden="true"></canvas>
   <section id="news">
     <div class="wrap">
       <div class="head">
@@ -281,6 +338,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     </div>
   </section>
 
+  <canvas class="mosaic strip" aria-hidden="true"></canvas>
   <section id="contact" class="contact">
     <div class="wrap">
       <div class="head">
@@ -306,6 +364,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 
 </main>
 
+<canvas class="mosaic strip" aria-hidden="true"></canvas>
 <footer>
   <div class="wrap">
     <span>© 2026 AoKi¹⁰⁴</span>
@@ -375,6 +434,138 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
       current = li;
     });
   });
+})();
+
+// Mosaics: generated blocks of checker, stripe, dot and hatch in two colours. The hero mosaic keeps
+// redrawing one block at a time.
+(function () {
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var U = 8, BLUE = '#2a2cff', LIGHT = '#c9cfff', WHITE = '#ffffff', PINK = '#ffa6d3', MINT = '#93ead9';
+  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+  function pick(r, a) { return a[Math.floor(r() * a.length)]; }
+  function tile(ctx, x, y, w, h, r) {
+    var t = Math.floor(r() * 10), i, j, c;
+    var fg = r() < .07 ? pick(r, [PINK, MINT]) : BLUE, bg = r() < .3 ? LIGHT : WHITE;
+    ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+    if (t === 0) { ctx.fillStyle = fg; ctx.fillRect(x, y, w, h); }
+    else if (t === 1) { ctx.fillStyle = LIGHT; ctx.fillRect(x, y, w, h); }
+    else if (t === 2 || t === 3) { // checker
+      c = pick(r, [U / 2, U, U * 2, U * 3]);
+      ctx.fillStyle = bg; ctx.fillRect(x, y, w, h); ctx.fillStyle = fg;
+      for (j = 0; j * c < h; j++) for (i = j % 2; i * c < w; i += 2) ctx.fillRect(x + i * c, y + j * c, c, c);
+    } else if (t === 4) { // vertical bars of uneven width
+      ctx.fillStyle = bg; ctx.fillRect(x, y, w, h); ctx.fillStyle = fg;
+      for (i = 0; i < w;) { c = pick(r, [U / 4, U / 2, U, U * 2]); ctx.fillRect(x + i, y, c, h); i += c + pick(r, [U / 4, U / 2, U]); }
+    } else if (t === 5) { // horizontal lines
+      c = pick(r, [U / 4, U / 2, U]);
+      ctx.fillStyle = bg; ctx.fillRect(x, y, w, h); ctx.fillStyle = fg;
+      for (j = 0; j < h; j += c * 2) ctx.fillRect(x, y + j, w, c);
+    } else if (t === 6) { // dots
+      c = pick(r, [U / 2, U]);
+      ctx.fillStyle = bg; ctx.fillRect(x, y, w, h); ctx.fillStyle = fg;
+      for (j = 0; j * c < h; j++) for (i = 0; i * c < w; i++) ctx.fillRect(x + i * c + (j % 2 ? c / 2 : 0), y + j * c, c / 4, c / 4);
+    } else if (t === 7) { // diagonal hatch
+      ctx.fillStyle = bg; ctx.fillRect(x, y, w, h); ctx.strokeStyle = fg; ctx.lineWidth = 1; ctx.beginPath();
+      for (i = -h; i < w; i += U / 2) { ctx.moveTo(x + i, y + h); ctx.lineTo(x + i + h, y); }
+      ctx.stroke();
+    } else if (t === 8) { // outlined panel
+      ctx.fillStyle = WHITE; ctx.fillRect(x, y, w, h); ctx.strokeStyle = fg; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
+    } else { // stairs
+      ctx.fillStyle = fg;
+      for (i = 0; i * U < w; i++) ctx.fillRect(x + i * U, y + h - Math.min(h, (i + 1) * U), U, h);
+    }
+    ctx.restore();
+  }
+  function place(ctx, W, H, r) {
+    var w = pick(r, [4, 6, 8, 12, 16, 24]) * U, h = pick(r, [2, 4, 6, 8, 12]) * U;
+    var x = Math.floor(r() * (W / (U * 2))) * U * 2 - w / 2, y = Math.floor(r() * (H / (U * 2))) * U * 2 - h / 2;
+    tile(ctx, x, y, w, h, r);
+    return [x, y, w, h];
+  }
+  var canvases = [].slice.call(document.querySelectorAll('canvas.mosaic')), live = null, timer = null;
+  function paint() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    live = null;
+    canvases.forEach(function (cv, k) {
+      var W = cv.clientWidth, H = cv.clientHeight;
+      if (!W || !H) return;
+      cv.width = W * dpr; cv.height = H * dpr;
+      var ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var r = rng(104 + k * 977), i, n, x, w;
+      if (cv.classList.contains('strip')) {
+        for (x = 0; x < W; x += w) { w = pick(r, [4, 6, 8, 12, 16, 20]) * U; if (r() < .82) tile(ctx, x, 0, w, H, r); }
+      } else {
+        n = Math.round(W * H / 15000);
+        for (i = 0; i < n; i++) place(ctx, W, H, r);
+        if (cv.hasAttribute('data-live')) live = { ctx: ctx, W: W, H: H, r: rng(Date.now() >>> 0) };
+      }
+    });
+  }
+  function step() {
+    if (!live || document.hidden) return;
+    if (live.r() < .4) {
+      var w = pick(live.r, [6, 8, 12, 16]) * U, h = pick(live.r, [4, 6, 8]) * U;
+      live.ctx.clearRect(Math.floor(live.r() * live.W / (U * 2)) * U * 2, Math.floor(live.r() * live.H / (U * 2)) * U * 2, w, h);
+    } else place(live.ctx, live.W, live.H, live.r);
+  }
+  var lastW = 0, wait;
+  function boot() { lastW = window.innerWidth; paint(); if (!still && !timer) timer = setInterval(step, 1100); }
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) return;
+    clearTimeout(wait); wait = setTimeout(boot, 200);
+  });
+  boot();
+})();
+
+// Terminal: the site being vibe-coded, typed one character at a time, forever.
+(function () {
+  var el = document.getElementById('term');
+  if (!el) return;
+  var lines = [
+    '> もっとグラフィックに。ダサカッコよく',
+    '  generating hero.css ...',
+    "+ h1 { font-family: 'Press Start 2P'; }",
+    '+ .mosaic { fill: checker(#2a2cff); }',
+    '✓ build 0.8s',
+    '> 文字は角ばったドットで',
+    "+ body { font-family: 'DotGothic16'; }",
+    '✓ deploy → aoki-portfolio',
+    '> サムネイルを押したらその場で再生',
+    "+ film.on('click', play(youtubeId));",
+    '✓ 10 works linked',
+    '> 色はグリーン R18 G232 B52',
+    '+ --accent: #12e834;',
+    '✓ ship it'
+  ];
+  var KEEP = 7;
+  function row(text) {
+    var d = document.createElement('div');
+    d.className = text.charAt(0) === '>' ? 'ask' : (text.charAt(0) === '✓' ? 'ok' : '');
+    d.textContent = text;
+    return d;
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    lines.slice(0, KEEP).forEach(function (t) { el.appendChild(row(t)); });
+    return;
+  }
+  var cur = document.createElement('span'); cur.className = 'cur';
+  var li = 0, ci = 0, d = null;
+  function next() {
+    if (document.hidden) { setTimeout(next, 600); return; }
+    var text = lines[li];
+    if (!d) {
+      d = row(text); d.textContent = ''; el.appendChild(d);
+      while (el.children.length > KEEP) el.removeChild(el.firstChild);
+    }
+    if (ci < text.length) {
+      ci++; d.textContent = text.slice(0, ci); d.appendChild(cur);
+      setTimeout(next, text.charAt(0) === '>' ? 70 : 24);
+    } else {
+      d = null; ci = 0; li = (li + 1) % lines.length;
+      setTimeout(next, text.charAt(0) === '✓' ? 1100 : 380);
+    }
+  }
+  next();
 })();
 </script>
 </body>
