@@ -281,6 +281,45 @@ canvas.sprite { display: block; image-rendering: pixelated; }
 @media (prefers-reduced-motion: reduce) {
   .whale { animation: none; }
 }
+
+/* ---- Profile, composed ---- */
+.about-grid { grid-template-columns: minmax(0, 264px) minmax(0, 1fr); gap: clamp(24px, 4.5vw, 56px); align-items: start; }
+.id-col { display: grid; gap: 22px; justify-items: center; padding: 8px 14px 0 6px; }
+.idcard { margin: 0; width: 100%; max-width: 232px; }
+.stickers { margin: 0; gap: 14px; align-items: center; justify-content: center; }
+.sticker.ncg { width: 78px; margin: 0; }
+.sticker.grp { width: 136px; margin: 0; }
+.bio { min-width: 0; }
+.bio .name { margin: 0 0 14px; font-size: clamp(28px, 4vw, 40px); line-height: 1.25; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; max-width: none; }
+.bio .name span { font-family: var(--pixel); font-size: 14px; color: var(--muted); letter-spacing: .06em; }
+.bio .titles { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; border: 0; background: none; width: auto; }
+.bio .titles li { width: fit-content; max-width: 100%; padding: 6px 14px 6px 12px; font-size: clamp(15px, 1.7vw, 18px); line-height: 1.6; background: var(--win); border-left: 8px solid var(--accent); box-shadow: 3px 3px 0 rgba(42, 37, 82, .25); }
+.bio p { max-width: 36em; }
+.bio .note { margin: 0; padding-top: 12px; border-top: 2px dotted var(--lav); color: var(--muted); font-size: 14px; }
+.awards { max-width: none; }
+h3 { margin-top: clamp(30px, 5vw, 52px); }
+
+/* ---- Bigger pets with speech bubbles ---- */
+.bubble { position: absolute; z-index: 2; background: #fff6a8; color: var(--ink); border: 2px solid var(--ink); padding: 7px 11px 6px; font-family: var(--body); font-size: 14px; line-height: 1.55; box-shadow: 3px 3px 0 rgba(42, 37, 82, .35); opacity: 0; transition: opacity .2s steps(2, end); }
+.bubble::after { content: ""; position: absolute; bottom: -8px; width: 12px; height: 12px; background: #fff6a8; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: rotate(45deg); }
+.whale { filter: none; }
+.whale canvas { filter: drop-shadow(4px 4px 0 rgba(42, 37, 82, .35)); }
+.whale .bubble { right: 6px; bottom: calc(100% + 16px); width: max-content; max-width: min(250px, 68vw); }
+.whale .bubble::after { right: 44px; }
+.whale.say .bubble { opacity: 1; }
+.peek .bubble { left: 50%; bottom: calc(100% + 14px); transform: translateX(-50%); white-space: nowrap; }
+.peek .bubble::after { left: calc(50% - 6px); }
+.peek.up .bubble { opacity: 1; transition-delay: .6s; }
+
+@media (max-width: 720px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .id-col { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; justify-items: center; gap: 22px; padding: 6px 4px 0; }
+  .idcard { width: 100%; max-width: 220px; margin: 0; }
+  .stickers { flex-direction: column; gap: 18px; }
+  .sticker.ncg { width: min(84px, 100%); }
+  .sticker.grp { width: min(132px, 100%); }
+  .bubble { font-size: 13px; }
+}
 </style>
 </head>
 <body>
@@ -339,18 +378,22 @@ canvas.sprite { display: block; image-rendering: pixelated; }
           <div class="about-grid">
             <div class="id-col">
               <figure class="idcard">
-              <div class="id-photo"><img src="id-photo.jpg" alt="青木俊樹のポートレート" width="600" height="800"></div>
-              <figcaption class="mono"><span>証明写真</span><span>30×40mm</span><span>No.104</span></figcaption>
-            </figure>
+                <div class="id-photo"><img src="id-photo.jpg" alt="青木俊樹のポートレート" width="600" height="800"></div>
+                <figcaption class="mono"><span>証明写真</span><span>30×40mm</span><span>No.104</span></figcaption>
+              </figure>
               <div class="stickers">
                 <span class="sticker ncg"><img src="sticker-ncg-ent.png" alt="NCG ENTERTAINMENT" width="320" height="377"></span>
                 <span class="sticker grp"><img src="sticker-nc-group.png" alt="NIPPON COLUMBIA GROUP" width="520" height="236"></span>
               </div>
             </div>
-            <div>
+            <div class="bio">
+              <p class="name">青木俊樹<span>Aoki Toshiki / AoKi¹⁰⁴</span></p>
+              <ul class="titles">
+                <li>NCG／CCO（最高クリエイティブ責任者）</li>
+                <li>NCG ENTERTAINMENT／プロデューサー</li>
+              </ul>
               <p>映像ディレクターとして20年以上、映像制作、VFX、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
-              <p class="titles">NCG／CCO（最高クリエイティブ責任者）<br>NCG ENTERTAINMENT／プロデューサー</p>
-              <p>NCG ENTERTAINMENT は、日本コロムビアグループのAIクリエイター共創レーベルです。</p>
+              <p class="note">NCG ENTERTAINMENT は、日本コロムビアグループのAIクリエイター共創レーベルです。</p>
             </div>
           </div>
 
@@ -726,8 +769,8 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   next();
 })();
 
-// Pixel pets, drawn here from small character maps. A whale stays fixed in the corner of the screen;
-// dolphins pop up from behind the windows now and then.
+// Pixel pets, drawn here from small character maps. A whale stays fixed in the corner of the screen and
+// talks; dolphins pop up from behind the windows with a word. What they say follows the visitor's clock.
 (function () {
   var PAL = { d: '#1b1f6b', b: '#2f6bff', l: '#9fc2ff', w: '#ffffff', k: '#15123a', t: '#35c3e8', u: '#bff0ff' };
   var WHALE = [
@@ -782,35 +825,69 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   }
   var small = window.matchMedia('(max-width: 720px)').matches;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function any(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function now() { var d = new Date(), h = d.getHours(), m = d.getMinutes(); return { h: h, t: (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m }; }
+  function whaleSays() {
+    var n = now(), h = n.h, t = n.t, lines;
+    if (Math.random() < .28) return any(['ご依頼は Contact からどうぞ。', 'Works は押すとその場で再生できます。', 'このサイト、AIと会話しながら作ってます。']);
+    if (h >= 5 && h < 10) lines = ['おはようございます。朝イチの生成、回してます。', '朝の ' + t + '。今日もいい絵が出ますように。'];
+    else if (h >= 10 && h < 12) lines = ['午前 ' + t + '。レンダリング日和です。', 'こんにちは。午前中は頭が冴えますね。'];
+    else if (h >= 12 && h < 14) lines = ['お昼ですね。ごはん中もAIは働いてます。', t + '。ランチのお供に Works をどうぞ。'];
+    else if (h >= 14 && h < 18) lines = ['午後の部です。ゆっくり見ていってください。', t + '。そろそろ眠い時間。動画で目を覚まして。'];
+    else if (h >= 18 && h < 22) lines = ['こんばんは。夜は編集がはかどります。', t + '。今日も一日おつかれさまでした。'];
+    else if (h >= 22 || h < 2) lines = ['夜更かしですね。こっちは ' + t + '、まだコーディング中。', t + '。深夜のほうが、いい絵が出る気がする。'];
+    else lines = ['深夜 ' + t + '…寝ないんですか。ぼくは寝ません。', 'こんな時間まで、ありがとう。' + t + ' です。'];
+    return any(lines);
+  }
+  function dolphinSays() {
+    var n = now(), h = n.h;
+    if (Math.random() < .4) return any(['見てる？', 'Works 見た？', 'いま ' + n.t + ' だよ', 'やっほー']);
+    if (h >= 5 && h < 11) return any(['おはよ！', '朝だよ！']);
+    if (h >= 11 && h < 17) return any(['こんにちは！', 'お昼たべた？']);
+    if (h >= 17 && h < 23) return any(['こんばんは！', 'おつかれ！']);
+    return any(['まだ起きてるの？', '夜ふかし仲間だ']);
+  }
 
-  // Whale: fixed to the screen corner, spouting.
+  // Whale: fixed to the screen corner, spouting and talking.
   var box = document.createElement('div'); box.className = 'whale'; box.setAttribute('aria-hidden', 'true');
-  var whale = sprite(WHALE, small ? 3 : 4, 0), spout = true;
-  box.appendChild(whale); document.body.appendChild(box);
+  var talk = document.createElement('div'); talk.className = 'bubble';
+  var whale = sprite(WHALE, small ? 5 : 7, 0), spout = true;
+  box.appendChild(talk); box.appendChild(whale); document.body.appendChild(box);
+  function say() {
+    if (document.hidden) return;
+    talk.textContent = whaleSays(); box.classList.add('say');
+    setTimeout(function () { box.classList.remove('say'); }, 6000);
+  }
+  setTimeout(say, 2200);
+  (function loop() { setTimeout(function () { say(); loop(); }, 13000 + Math.random() * 9000); })();
   if (still) return;
-  setInterval(function () { spout = !spout; whale.redraw(spout ? 0 : 0); if (!spout) { var c = whale.getContext('2d'); c.clearRect(0, 0, whale.width, 2); } }, 700);
+  setInterval(function () {
+    spout = !spout; whale.redraw(0);
+    if (!spout) whale.getContext('2d').clearRect(0, 0, whale.width, 2);
+  }, 700);
 
   // Dolphins: one at a time, from behind a window that is on screen.
   var busy = false;
   function peek() {
     if (busy || document.hidden) return;
     var wins = [].slice.call(document.querySelectorAll('section')).filter(function (sec) {
-      var top = sec.getBoundingClientRect().top; return top > 110 && top < window.innerHeight - 40;
+      var top = sec.getBoundingClientRect().top; return top > 170 && top < window.innerHeight - 40;
     });
     if (!wins.length) return;
-    var sec = wins[Math.floor(Math.random() * wins.length)], win = sec.querySelector('.wrap');
+    var sec = any(wins), win = sec.querySelector('.wrap');
     var el = document.createElement('div'); el.className = 'peek' + (Math.random() < .5 ? ' flip' : ''); el.setAttribute('aria-hidden', 'true');
-    var cv = sprite(DOLPHIN, small ? 3 : 4, 0);
-    el.appendChild(cv);
-    var span = Math.max(0, win.offsetWidth - parseInt(cv.style.width, 10) - 40);
-    el.style.left = (win.offsetLeft + 20 + Math.random() * span) + 'px';
+    var cv = sprite(DOLPHIN, small ? 5 : 7, 0), bub = document.createElement('div');
+    bub.className = 'bubble'; bub.textContent = dolphinSays();
+    el.appendChild(bub); el.appendChild(cv);
+    var w = parseInt(cv.style.width, 10), pad = small ? 34 : 60, span = Math.max(0, win.offsetWidth - w - pad * 2);
+    el.style.left = (win.offsetLeft + pad + Math.random() * span) + 'px';
     sec.appendChild(el);
     busy = true;
     requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('up'); }); });
-    setTimeout(function () { el.classList.remove('up'); }, 1500 + Math.random() * 1400);
-    setTimeout(function () { el.remove(); busy = false; }, 3800);
+    setTimeout(function () { el.classList.remove('up'); }, 2600 + Math.random() * 1400);
+    setTimeout(function () { el.remove(); busy = false; }, 5200);
   }
-  (function loop() { peek(); setTimeout(loop, 3500 + Math.random() * 5000); })();
+  (function loop() { peek(); setTimeout(loop, 4500 + Math.random() * 5000); })();
 })();
 </script>
 </body>
