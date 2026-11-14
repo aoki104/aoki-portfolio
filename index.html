@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AoKi¹⁰⁴ Portfolio</title>
+<meta name="description" content="AoKi¹⁰⁴（青木俊樹）生成AI × 映像制作。MV、アニメーション、企業映像のディレクション。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a film cue sheet. Mono timecodes and numbers in a narrow left rail,
+   mincho titles in the wide column, one vermilion REC accent. Single dark theme by choice. */
+:root {
+  color-scheme: dark;
+  --ink: #0e1014;
+  --panel: #161a21;
+  --line: #2b313c;
+  --text: #ebe7df;
+  --muted: #949ba8;
+  --accent: #ff4d2e;
+  --display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --rail: 132px;
+  --gutter: clamp(18px, 4vw, 56px);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+
+/* Header */
+header.site {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+.brand sup, h1 sup { color: var(--accent); }
+nav.main { display: flex; gap: clamp(14px, 3vw, 32px); flex-wrap: wrap; }
+nav.main a { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--muted); letter-spacing: .08em; padding: 6px 0; }
+nav.main a:hover { color: var(--text); }
+nav.main a.cta { color: var(--accent); }
+
+/* Hero */
+.hero { padding: clamp(40px, 8vw, 96px) 0 clamp(36px, 6vw, 72px); border-bottom: 1px solid var(--line); }
+.slate { display: flex; flex-wrap: wrap; gap: 8px 28px; color: var(--muted); font-size: 13px; }
+.slate .rec { color: var(--accent); display: inline-flex; align-items: center; gap: 8px; }
+.slate .rec i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); animation: blink 1.6s steps(2, end) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+h1 {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(72px, 19vw, 248px);
+  line-height: .95; letter-spacing: -.02em;
+  margin: clamp(20px, 4vw, 44px) 0 0;
+}
+h1 sup { font-size: .34em; vertical-align: top; position: relative; top: .12em; margin-left: .06em; letter-spacing: 0; }
+.thesis { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; margin-top: clamp(24px, 4vw, 48px); align-items: baseline; }
+.thesis .label { color: var(--muted); font-size: 12px; }
+.thesis p { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3.4vw, 40px); line-height: 1.45; text-wrap: balance; }
+.thesis p em { font-style: normal; color: var(--accent); }
+.roles { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--muted); font-size: 14px; grid-column: 2; }
+
+/* Sections */
+section { padding: clamp(48px, 8vw, 104px) 0; border-bottom: 1px solid var(--line); }
+.head { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; align-items: baseline; margin-bottom: clamp(24px, 4vw, 48px); }
+.head .no { color: var(--accent); font-size: 13px; }
+h2 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 6vw, 68px); line-height: 1.1; margin: 0; letter-spacing: -.01em; }
+h2 small { display: block; font-family: var(--body); font-weight: 500; font-size: 14px; color: var(--muted); letter-spacing: .1em; margin-top: 10px; }
+.cols { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; }
+.cols > .body { grid-column: 2; }
+
+/* About */
+.about p { max-width: 36em; margin: 0 0 1.2em; }
+.awards { margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); max-width: 760px; }
+.awards li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.awards b { font-family: var(--display); font-weight: 700; font-size: 18px; }
+.awards span { color: var(--accent); font-size: 14px; }
+h3 { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--muted); letter-spacing: .14em; margin: clamp(32px, 5vw, 56px) 0 0; }
+
+/* Cue sheet (works, news) */
+.cue { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.cue li { display: grid; grid-template-columns: var(--rail) 1fr; gap: 4px 24px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.cue .tc { color: var(--muted); font-size: 13px; }
+.cue .title { font-family: var(--display); font-weight: 700; font-size: clamp(19px, 2.5vw, 27px); line-height: 1.45; margin: 0; text-wrap: balance; }
+.cue .meta { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.cue .won { color: var(--accent); }
+.cue a { text-decoration: none; }
+.cue a .title { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 6px; }
+.cue a:hover .title { text-decoration-color: var(--accent); }
+.news .title { font-size: clamp(17px, 2vw, 21px); }
+.news li { padding: 15px 0; }
+
+/* Works: thumbnail grid */
+.films { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(26px, 3.4vw, 44px) clamp(18px, 2.6vw, 32px); }
+.films .lead { grid-column: 1 / -1; }
+.film a { display: block; text-decoration: none; }
+.frame { display: block; position: relative; aspect-ratio: 16 / 9; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.film a:hover .frame img { transform: scale(1.03); }
+.frame .tc { position: absolute; left: 0; top: 0; padding: 4px 10px; font-size: 12px; color: var(--text); background: var(--ink); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 1px solid var(--text); background: color-mix(in srgb, var(--ink) 55%, transparent); transition: background .2s, border-color .2s; }
+.play::after { content: ""; position: absolute; left: 26px; top: 21px; border-left: 16px solid var(--text); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+.film a:hover .play, .film a:focus-visible .play { background: var(--accent); border-color: var(--accent); }
+.film .title { font-family: var(--display); font-weight: 700; font-size: clamp(19px, 2.3vw, 26px); line-height: 1.45; margin: 14px 0 0; text-wrap: balance; }
+.film.lead .title { font-size: clamp(24px, 3.6vw, 42px); }
+.film .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.film .won { color: var(--accent); }
+h3.more { margin-bottom: 16px; }
+
+/* Collaborators */
+.people { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
+.people a { display: block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; text-decoration: none; }
+.people a:hover { border-color: var(--accent); }
+
+/* Contact */
+.contact .status { display: inline-flex; gap: 10px; align-items: center; padding: 8px 14px; background: var(--panel); border: 1px solid var(--line); font-size: 14px; }
+.contact .status b { color: var(--accent); }
+.mail { display: block; width: fit-content; font-family: var(--display); font-weight: 800; font-size: clamp(28px, 6.2vw, 76px); line-height: 1.2; margin: 26px 0 8px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .14em; overflow-wrap: anywhere; }
+.contact p { max-width: 36em; margin: 0; color: var(--muted); }
+.sns { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 30px 0 0; padding: 0; list-style: none; }
+.sns a { font-family: var(--mono); font-size: 14px; letter-spacing: .06em; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
+.sns a:hover { border-color: var(--accent); }
+
+footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  :root { --rail: 1fr; }
+  .thesis, .head, .cols, .cue li { grid-template-columns: 1fr; }
+  .roles, .cols > .body { grid-column: 1; }
+  .films { grid-template-columns: 1fr; }
+  .head .no { margin-bottom: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .slate .rec i { animation: none; }
+  .frame img { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top">AoKi<sup>104</sup></a>
+    <nav class="main" aria-label="メインメニュー">
+      <a href="#about">ABOUT</a>
+      <a href="#works">WORKS</a>
+      <a href="#news">NEWS</a>
+      <a class="cta" href="#contact">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <div class="hero">
+    <div class="wrap">
+      <div class="slate mono">
+        <span class="rec"><i></i>REC</span>
+        <span id="tc">00:00:00:00</span>
+        <span>24fps</span>
+        <span>PORTFOLIO 2026</span>
+      </div>
+      <h1>AoKi<sup>104</sup></h1>
+      <div class="thesis">
+        <span class="label mono">DIRECTOR</span>
+        <p>生成AI <em>×</em> 映像制作。<br>20年の演出を、AIで撮る。</p>
+        <ul class="roles">
+          <li>青木俊樹 / Aoki Toshiki</li>
+          <li>NCG ENTERTAINMENT CCO・プロデューサー</li>
+          <li>オズクリエイト</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="head">
+        <span class="no mono">01</span>
+        <h2>About<small>プロフィール</small></h2>
+      </div>
+      <div class="cols">
+        <div class="body">
+          <p>映像ディレクターとして20年以上、シネマティック、実写、3DCG、モーショングラフィックスを手がけてきました。現在は生成AIを制作の中心に置き、MV、アニメーション、企業映像をつくっています。</p>
+          <p>日本コロムビアのAIクリエイティブコンテスト「COLOTEK」で2度のグランプリを受賞。2026年4月から、日本コロムビアグループのAIクリエイター共創レーベル NCG ENTERTAINMENT で CCO とプロデューサーを務めています。</p>
+
+          <h3>AWARDS</h3>
+          <ul class="awards">
+            <li><b>CapCutハッカソン2026</b><span>最優秀賞</span></li>
+            <li><b>日本コロムビア COLOTEK</b><span>グランプリ 最優秀賞（2作品）</span></li>
+            <li><b>大阪AI文化万博</b><span>大賞</span></li>
+            <li><b>Sai Design Arena 生成AIコンテスト</b><span>最優秀賞</span></li>
+            <li><b>IVS NEOCREA クリエイティブコンテスト</b><span>準グランプリ</span></li>
+            <li><b>Runway Gen:48</b><span>ファイナリスト</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="wrap">
+      <div class="head">
+        <span class="no mono">02</span>
+        <h2>Works<small>制作実績</small></h2>
+      </div>
+      <ol class="films">
+        <li class="film lead"><a href="https://youtu.be/yCrWCyHPYPA" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/yCrWCyHPYPA/maxresdefault.jpg" data-yt="yCrWCyHPYPA" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-01</span></span><p class="title">HOLD</p><p class="meta">AI Short Film　CapCut Showcase</p></a></li>
+        <li class="film"><a href="https://youtu.be/_4ed0oZvUtg" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/_4ed0oZvUtg/maxresdefault.jpg" data-yt="_4ed0oZvUtg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-02</span></span><p class="title">TALK BACK ―私の人形は口が悪い―</p></a></li>
+        <li class="film"><a href="https://youtu.be/9Exn2zhxBYg" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/9Exn2zhxBYg/maxresdefault.jpg" data-yt="9Exn2zhxBYg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-03</span></span><p class="title">夏祭</p><p class="meta">Int.Lab 共作　<span class="won">CapCutハッカソン2026 最優秀賞</span></p></a></li>
+        <li class="film"><a href="https://youtu.be/EPDbjlAPv5s" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/EPDbjlAPv5s/maxresdefault.jpg" data-yt="EPDbjlAPv5s" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-04</span></span><p class="title">奈落 -The Abyss, Nameless-</p></a></li>
+        <li class="film"><a href="https://youtu.be/fGlebk_uwnI" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/fGlebk_uwnI/maxresdefault.jpg" data-yt="fGlebk_uwnI" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-05</span></span><p class="title">黒淵</p><p class="meta">Int.Lab anT Project　ソニーストア銀座 上映　<span class="won">大阪AI文化万博 最優秀賞</span></p></a></li>
+        <li class="film"><a href="https://youtu.be/7NVejx0hVHo" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/7NVejx0hVHo/maxresdefault.jpg" data-yt="7NVejx0hVHo" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-06</span></span><p class="title">EXPO2025 関西・大阪万博 KIDS EXPO U-18</p><p class="meta">オープニング映像</p></a></li>
+        <li class="film"><a href="https://youtu.be/3ZG127Xb7Ts" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/3ZG127Xb7Ts/maxresdefault.jpg" data-yt="3ZG127Xb7Ts" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-07</span></span><p class="title">Creative Monsters</p><p class="meta">VGT Motion Award 2025</p></a></li>
+        <li class="film"><a href="https://youtu.be/DYNPmkAR5F0" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/DYNPmkAR5F0/maxresdefault.jpg" data-yt="DYNPmkAR5F0" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-08</span></span><p class="title">Show Me Beast</p><p class="meta">楽曲「Party of Monsters」氷川きよし / 小室哲哉　<span class="won">COLOTEK グランプリ 最優秀賞</span></p></a></li>
+        <li class="film"><a href="https://youtu.be/k3AgaEMHBF4" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/k3AgaEMHBF4/maxresdefault.jpg" data-yt="k3AgaEMHBF4" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-09</span></span><p class="title">IVS20XX in Cyber Kyoto City</p></a></li>
+        <li class="film"><a href="https://youtu.be/Tcqd382pfGY" target="_blank" rel="noopener"><span class="frame"><img src="https://i.ytimg.com/vi/Tcqd382pfGY/maxresdefault.jpg" data-yt="Tcqd382pfGY" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="tc mono">W-10</span></span><p class="title">GENERATE</p><p class="meta"><span class="won">Runway Gen:48 4th ファイナリスト</span></p></a></li>
+      </ol>
+      <h3 class="more">MORE WORKS</h3>
+      <ol class="cue">
+        <li><span class="tc mono">W-11</span><div><p class="title">美空ひばり「二人きりで」公式MV</p><p class="meta">日本コロムビア　1956年録音の未発表曲</p></div></li>
+        <li><span class="tc mono">W-12</span><div><p class="title">美空ひばり「川の流れのように」公式MV</p><p class="meta">日本コロムビア　作詞 秋元康　<span class="won">COLOTEK グランプリ 最優秀賞</span></p></div></li>
+        <li><span class="tc mono">W-13</span><div><p class="title">德永英明「飾りじゃないのよ涙は」公式 Lyric Video</p><p class="meta">日本コロムビア</p></div></li>
+        <li><span class="tc mono">W-14</span><div><p class="title">紗奈 SANA「New ME」Music Video</p><p class="meta">KLab AI Entertainment（AI音楽専門レーベル）</p></div></li>
+        <li><span class="tc mono">W-15</span><div><p class="title">教育AIサミット 共創アカデミー オープニング映像</p><p class="meta">文部科学省後援</p></div></li>
+        <li><span class="tc mono">W-16</span><div><p class="title">Sai Design Arena 出品作</p><p class="meta"><span class="won">Sai Design Arena 生成AIコンテスト 最優秀賞</span></p></div></li>
+        <li><span class="tc mono">W-17</span><div><p class="title">BlackBeethoven MV予告</p><p class="meta">秋葉原UDXシアター 上映</p></div></li>
+        <li><span class="tc mono">W-18</span><div><p class="title">Hit Rock Generate</p><p class="meta">漫画アニメーション</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="wrap">
+      <div class="head">
+        <span class="no mono">03</span>
+        <h2>News<small>ニュース・出演歴</small></h2>
+      </div>
+      <ol class="cue news">
+        <li><span class="tc mono">2026.04.01</span><a href="https://www.columbia.co.jp/press/details/20260401-2"><p class="title">NCG ENTERTAINMENT CCO 就任</p></a></li>
+        <li><span class="tc mono">2026.02.22</span><a href="https://www.columbia.co.jp/press/details/20260222"><p class="title">COLOTEK 最優秀賞</p></a></li>
+        <li><span class="tc mono">2026.01.24</span><a href="https://www.tokiwavalley.com"><p class="title">大阪AI文化万博 大賞</p></a></li>
+        <li><span class="tc mono">2026.01.21</span><a href="https://www.famitsu.com/article/202601/63627"><p class="title">ファミ通 掲載</p></a></li>
+        <li><span class="tc mono">2025.12.27</span><a href="https://www.sony.jp/store/retail/ginza/"><p class="title">ソニーストア銀座 上映（12.27〜28）</p></a></li>
+        <li><span class="tc mono">2025.12.24</span><a href="https://www.web3bb2025.pivot-tokyo.com"><p class="title">AIBB 登壇</p></a></li>
+        <li><span class="tc mono">2025.12.07</span><a href="https://crossmedia.kyoto/kyoto-xr/"><p class="title">HISTORICA X 登壇</p></a></li>
+        <li><span class="tc mono">2025.11.19</span><a href="https://www.nfft.jp"><p class="title">Inter BEE 出展（NFFT2026）</p></a></li>
+        <li><span class="tc mono">2025.10.13</span><a href="https://ai-video-generator.peatix.com"><p class="title">トークイベント出演</p></a></li>
+        <li><span class="tc mono">2025.09.20</span><a href="https://neocrea-after.vercel.app/"><p class="title">NEOCREA AFTER PARTY</p></a></li>
+        <li><span class="tc mono">2025.09.02</span><a href="https://radiko.jp/share/?sid=INT&amp;t=20250902000000&amp;noreload=1"><p class="title">ラジオ出演</p></a></li>
+        <li><span class="tc mono">2025.08.10</span><div><p class="title">秋葉原UDXシアター 上映</p></div></li>
+      </ol>
+
+      <div class="cols">
+        <div class="body">
+          <h3>COLLABORATORS</h3>
+          <ul class="people">
+            <li><a href="https://twitter.com/luxaios">LUCY</a></li>
+            <li><a href="https://twitter.com/RBLabQ">RelaxBeatsLab™︎</a></li>
+            <li><a href="https://twitter.com/neco1751662">neco</a></li>
+            <li><a href="https://twitter.com/doerstokyo342">こば@AIBridge Lab</a></li>
+            <li><a href="https://twitter.com/naooon68">naoon</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="head">
+        <span class="no mono">04</span>
+        <h2>Contact<small>ご依頼・ご相談</small></h2>
+      </div>
+      <div class="cols">
+        <div class="body">
+          <span class="status"><b>▲</b>現在の受付状況：まずはご相談ください</span>
+          <a class="mail" href="mailto:info@ozcreate.jp">info@ozcreate.jp</a>
+          <p>MV、アニメーション、企業映像、登壇や審査のご依頼は、メールでお知らせください。</p>
+          <ul class="sns">
+            <li><a href="https://twitter.com/aoki_tosh">X</a></li>
+            <li><a href="https://www.instagram.com/aoki_tosh/">INSTAGRAM</a></li>
+            <li><a href="https://www.threads.com/@aoki_tosh">THREADS</a></li>
+            <li><a href="https://www.tiktok.com/@aoki_tosh">TIKTOK</a></li>
+            <li><a href="https://note.com/aok_tosh/n/n0d4f0b4db2de">NOTE</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 AoKi¹⁰⁴ / オズクリエイト</span>
+    <span class="mono">@aoki_tosh</span>
+  </div>
+</footer>
+
+<script>
+// Running timecode in the hero slate: counts frames at 24fps from page load.
+(function () {
+  var el = document.getElementById('tc');
+  if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var start = performance.now();
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick(now) {
+    var f = Math.floor((now - start) / 1000 * 24);
+    var s = Math.floor(f / 24);
+    el.textContent = pad(Math.floor(s / 3600) % 100) + ':' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60) + ':' + pad(f % 24);
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// YouTube thumbnails: fall back to the standard size when no HD image exists, hide if blocked.
+document.querySelectorAll('img[data-yt]').forEach(function (img) {
+  function fallback() {
+    if (img.dataset.fb) { img.remove(); return; }
+    img.dataset.fb = '1';
+    img.src = 'https://i.ytimg.com/vi/' + img.dataset.yt + '/hqdefault.jpg';
+  }
+  img.addEventListener('error', fallback);
+  img.addEventListener('load', function () { if (img.naturalWidth <= 120 && !img.dataset.fb) fallback(); });
+  if (img.complete && img.naturalWidth > 0 && img.naturalWidth <= 120) fallback();
+});
+</script>
+</body>
+</html>
