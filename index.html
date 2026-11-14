@@ -7,21 +7,23 @@
 <meta name="description" content="AoKi¹⁰⁴（青木俊樹）生成AI × 映像制作。MV、アニメーション、企業映像のディレクション。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=VT323&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: a film cue sheet. Mono timecodes and numbers in a narrow left rail,
-   mincho titles in the wide column, one vermilion REC accent. Single dark theme by choice. */
+/* Layout idea: a 1980s home-video screen. Phosphor green on a dark tube, scanlines over everything,
+   VCR on-screen-display labels in a terminal face, fat Showa telop lettering for the name and headings.
+   Single dark theme by choice. */
 :root {
   color-scheme: dark;
-  --ink: #0e1014;
-  --panel: #161a21;
-  --line: #2b313c;
-  --text: #ebe7df;
-  --muted: #949ba8;
-  --accent: #ff4d2e;
-  --display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --ink: #060a07;
+  --panel: #0d150f;
+  --line: #1f3524;
+  --text: #e7f3e5;
+  --muted: #8ea592;
+  --accent: #12e834;
+  --glow: rgba(18, 232, 52, .38);
+  --display: "Dela Gothic One", "Hiragino Kaku Gothic StdN", "Yu Gothic", sans-serif;
   --body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --mono: "VT323", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --rail: 132px;
   --gutter: clamp(18px, 4vw, 56px);
 }
@@ -36,123 +38,129 @@ body {
   line-height: 1.85;
   -webkit-font-smoothing: antialiased;
 }
+/* Scanlines and tube vignette over the whole screen */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.2) 2px 3px),
+    radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,.45) 100%);
+}
+::selection { background: var(--accent); color: var(--ink); }
 a { color: inherit; }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter); }
-.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: .06em; font-size: 19px; line-height: 1.2; }
 
 /* Header */
-header.site {
-  position: sticky; top: 0; z-index: 10;
-  background: color-mix(in srgb, var(--ink) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
+header.site { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--ink) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; flex-wrap: wrap; }
-.brand { font-family: var(--display); font-weight: 800; font-size: 20px; text-decoration: none; letter-spacing: .02em; }
+.brand { font-family: var(--display); font-size: 19px; text-decoration: none; letter-spacing: .02em; }
 .brand sup, h1 sup { color: var(--accent); }
-nav.main { display: flex; gap: clamp(14px, 3vw, 32px); flex-wrap: wrap; }
-nav.main a { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--muted); letter-spacing: .08em; padding: 6px 0; }
-nav.main a:hover { color: var(--text); }
+nav.main { display: flex; gap: clamp(14px, 3vw, 30px); flex-wrap: wrap; }
+nav.main a { font-family: var(--mono); font-size: 20px; text-decoration: none; color: var(--muted); letter-spacing: .08em; padding: 4px 0; }
+nav.main a:hover { color: var(--accent); }
 nav.main a.cta { color: var(--accent); }
 
 /* Hero */
-.hero { padding: clamp(40px, 8vw, 96px) 0 clamp(36px, 6vw, 72px); border-bottom: 1px solid var(--line); }
-.slate { display: flex; flex-wrap: wrap; gap: 8px 28px; color: var(--muted); font-size: 13px; }
-.slate .rec { color: var(--accent); display: inline-flex; align-items: center; gap: 8px; }
-.slate .rec i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); animation: blink 1.6s steps(2, end) infinite; }
-@keyframes blink { 50% { opacity: .25; } }
-h1 {
-  font-family: var(--display); font-weight: 800;
-  font-size: clamp(72px, 19vw, 248px);
-  line-height: .95; letter-spacing: -.02em;
-  margin: clamp(20px, 4vw, 44px) 0 0;
+.hero { position: relative; padding: clamp(36px, 7vw, 84px) 0 clamp(44px, 7vw, 84px); border-bottom: 1px solid var(--line); overflow: hidden; }
+/* VHS tracking band along the bottom edge */
+.hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 10px; height: 12px; opacity: .5;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 3px, transparent 3px 11px, rgba(231,243,229,.7) 11px 12px, transparent 12px 29px);
+  transform: skewX(-24deg);
 }
-h1 sup { font-size: .34em; vertical-align: top; position: relative; top: .12em; margin-left: .06em; letter-spacing: 0; }
+.slate { display: flex; flex-wrap: wrap; gap: 4px 30px; color: var(--accent); font-size: 24px; text-shadow: 0 0 10px var(--glow); }
+h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(64px, 17vw, 224px);
+  line-height: 1; letter-spacing: -.01em;
+  margin: clamp(18px, 3.5vw, 40px) 0 0;
+  text-shadow: .035em 0 0 rgba(18, 232, 52, .32), 0 0 .18em var(--glow);
+}
+h1 sup { font-size: .34em; vertical-align: top; position: relative; top: .1em; margin-left: .08em; text-shadow: 0 0 .5em var(--glow); }
 .thesis { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; margin-top: clamp(24px, 4vw, 48px); align-items: baseline; }
-.thesis .label { color: var(--muted); font-size: 12px; }
-.thesis p { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 3.4vw, 40px); line-height: 1.45; text-wrap: balance; }
+.thesis .label { color: var(--muted); }
+.thesis p { margin: 0; font-family: var(--display); font-size: clamp(20px, 3.1vw, 36px); line-height: 1.5; text-wrap: balance; }
 .thesis p em { font-style: normal; color: var(--accent); }
 .roles { margin: 18px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--muted); font-size: 14px; grid-column: 2; }
 
 /* Sections */
 section { padding: clamp(48px, 8vw, 104px) 0; border-bottom: 1px solid var(--line); }
 .head { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; align-items: baseline; margin-bottom: clamp(24px, 4vw, 48px); }
-.head .no { color: var(--accent); font-size: 13px; }
-h2 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 6vw, 68px); line-height: 1.1; margin: 0; letter-spacing: -.01em; }
-h2 small { display: block; font-family: var(--body); font-weight: 500; font-size: 14px; color: var(--muted); letter-spacing: .1em; margin-top: 10px; }
+.head .no { color: var(--accent); font-size: 24px; text-shadow: 0 0 10px var(--glow); }
+h2 { font-family: var(--display); font-weight: 400; font-size: clamp(32px, 5.6vw, 64px); line-height: 1.1; margin: 0; }
+h2 small { display: block; font-family: var(--body); font-weight: 500; font-size: 14px; color: var(--muted); letter-spacing: .1em; margin-top: 12px; }
 .cols { display: grid; grid-template-columns: var(--rail) 1fr; gap: 0 24px; }
 .cols > .body { grid-column: 2; }
 
 /* About */
 .about p { max-width: 36em; margin: 0 0 1.2em; }
-.awards { margin: clamp(28px, 4vw, 44px) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); max-width: 760px; }
-.awards li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 0; border-bottom: 1px solid var(--line); }
-.awards b { font-family: var(--display); font-weight: 700; font-size: 18px; }
+.awards { margin: 16px 0 0; padding: 0; list-style: none; border-top: 1px dashed var(--line); max-width: 760px; }
+.awards li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 13px 0; border-bottom: 1px dashed var(--line); }
+.awards b { font-weight: 700; font-size: 17px; }
 .awards span { color: var(--accent); font-size: 14px; }
-h3 { font-family: var(--mono); font-weight: 500; font-size: 12px; color: var(--muted); letter-spacing: .14em; margin: clamp(32px, 5vw, 56px) 0 0; }
+h3 { font-family: var(--mono); font-weight: 400; font-size: 20px; color: var(--muted); letter-spacing: .14em; margin: clamp(32px, 5vw, 56px) 0 0; }
 
-/* Cue sheet (works, news) */
-.cue { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.cue li { display: grid; grid-template-columns: var(--rail) 1fr; gap: 4px 24px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
-.cue .tc { color: var(--muted); font-size: 13px; }
-.cue .title { font-family: var(--display); font-weight: 700; font-size: clamp(19px, 2.5vw, 27px); line-height: 1.45; margin: 0; text-wrap: balance; }
-.cue .meta { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
-.cue .won { color: var(--accent); }
+/* Lists (more works, news) */
+.cue { list-style: none; margin: 0; padding: 0; border-top: 1px dashed var(--line); }
+.cue li { display: grid; grid-template-columns: var(--rail) 1fr; gap: 4px 24px; padding: 16px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+.cue .tc { color: var(--muted); }
+.cue .title { font-weight: 700; font-size: clamp(17px, 2vw, 21px); line-height: 1.5; margin: 0; text-wrap: balance; }
+.cue .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.won { color: var(--accent); }
 .cue a { text-decoration: none; }
 .cue a .title { text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 6px; }
-.cue a:hover .title { text-decoration-color: var(--accent); }
-.news .title { font-size: clamp(17px, 2vw, 21px); }
-.news li { padding: 15px 0; }
+.cue a:hover .title { color: var(--accent); text-decoration-color: var(--accent); }
 
-/* Works: thumbnail grid */
+/* Works: thumbnail grid, each tile a small tube screen */
 .films { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(26px, 3.4vw, 44px) clamp(18px, 2.6vw, 32px); }
 .films .lead { grid-column: 1 / -1; }
 .film a { display: block; text-decoration: none; }
-.frame { display: block; position: relative; aspect-ratio: 16 / 9; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
-.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-.film a:hover .frame img { transform: scale(1.03); }
-.frame .tc { position: absolute; left: 0; top: 0; padding: 4px 10px; font-size: 12px; color: var(--text); background: var(--ink); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 1px solid var(--text); background: color-mix(in srgb, var(--ink) 55%, transparent); transition: background .2s, border-color .2s; }
-.play::after { content: ""; position: absolute; left: 26px; top: 21px; border-left: 16px solid var(--text); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
-.film a:hover .play, .film a:focus-visible .play { background: var(--accent); border-color: var(--accent); }
-.film .title { font-family: var(--display); font-weight: 700; font-size: clamp(19px, 2.3vw, 26px); line-height: 1.45; margin: 14px 0 0; text-wrap: balance; }
-.film.lead .title { font-size: clamp(24px, 3.6vw, 42px); }
+.frame { display: block; position: relative; aspect-ratio: 16 / 9; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.film a:hover .frame, .film a:focus-visible .frame { border-color: var(--accent); box-shadow: 0 0 26px var(--glow); }
+.frame .tc { position: absolute; left: 12px; top: 8px; color: var(--accent); text-shadow: 0 0 8px var(--ink), 0 0 2px var(--ink); }
+.play { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 8px; border: 2px solid var(--accent); background: color-mix(in srgb, var(--ink) 60%, transparent); transition: background .2s; }
+.play::after { content: ""; position: absolute; left: 24px; top: 19px; border-left: 17px solid var(--accent); border-top: 11px solid transparent; border-bottom: 11px solid transparent; }
+.film a:hover .play, .film a:focus-visible .play { background: var(--accent); }
+.film a:hover .play::after, .film a:focus-visible .play::after { border-left-color: var(--ink); }
+.film .title { font-weight: 700; font-size: clamp(18px, 2.1vw, 23px); line-height: 1.5; margin: 14px 0 0; text-wrap: balance; }
+.film.lead .title { font-family: var(--display); font-weight: 400; font-size: clamp(24px, 3.6vw, 42px); }
 .film .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
-.film .won { color: var(--accent); }
 .film.playing > a .frame { display: none; }
+.player { z-index: 60; }
 .player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.film.playing > a .title { margin-top: 14px; }
 h3.more { margin-bottom: 16px; }
 
-/* Collaborators */
-.people { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; }
-.people a { display: block; padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; text-decoration: none; }
-.people a:hover { border-color: var(--accent); }
+/* Posts (X) */
+.xfeed { max-width: 560px; min-height: 40px; }
+.xfeed > a { color: var(--muted); }
+.xnote { margin: 18px 0 14px; color: var(--muted); font-size: 14px; max-width: 36em; }
+.btn { display: inline-block; padding: 8px 18px 6px; border: 2px solid var(--accent); border-radius: 8px; color: var(--accent); font-family: var(--mono); font-size: 22px; letter-spacing: .06em; text-decoration: none; }
+.btn:hover { background: var(--accent); color: var(--ink); }
 
 /* Contact */
-.contact .status { display: inline-flex; gap: 10px; align-items: center; padding: 8px 14px; background: var(--panel); border: 1px solid var(--line); font-size: 14px; }
+.contact .status { display: inline-flex; gap: 10px; align-items: center; padding: 8px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; font-size: 14px; }
 .contact .status b { color: var(--accent); }
-.mail { display: block; width: fit-content; font-family: var(--display); font-weight: 800; font-size: clamp(28px, 6.2vw, 76px); line-height: 1.2; margin: 26px 0 8px; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: .14em; overflow-wrap: anywhere; }
+.mail { display: block; width: fit-content; font-family: var(--mono); font-size: clamp(34px, 7.4vw, 92px); line-height: 1.1; letter-spacing: .02em; margin: 26px 0 10px; color: var(--accent); text-shadow: 0 0 18px var(--glow); text-decoration: none; overflow-wrap: anywhere; }
+.mail:hover { text-decoration: underline; text-underline-offset: .14em; }
 .contact p { max-width: 36em; margin: 0; color: var(--muted); }
 .sns { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 30px 0 0; padding: 0; list-style: none; }
-.sns a { font-family: var(--mono); font-size: 14px; letter-spacing: .06em; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
-.sns a:hover { border-color: var(--accent); }
+.sns a { font-family: var(--mono); font-size: 22px; letter-spacing: .06em; text-decoration: none; border-bottom: 1px dashed var(--line); padding-bottom: 2px; }
+.sns a:hover { color: var(--accent); border-color: var(--accent); }
 
 footer { padding: 28px 0 40px; color: var(--muted); font-size: 12px; }
-footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
 
 @media (max-width: 720px) {
   :root { --rail: 1fr; }
   .thesis, .head, .cols, .cue li { grid-template-columns: 1fr; }
   .roles, .cols > .body { grid-column: 1; }
-  .films { grid-template-columns: 1fr; }
   .head .no { margin-bottom: 6px; }
+  .films { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .slate .rec i { animation: none; }
-  .frame img { transition: none; }
 }
 </style>
 </head>
@@ -165,6 +173,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
       <a href="#about">ABOUT</a>
       <a href="#works">WORKS</a>
       <a href="#news">NEWS</a>
+      <a href="#posts">POSTS</a>
       <a class="cta" href="#contact">CONTACT</a>
     </nav>
   </div>
@@ -175,9 +184,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <div class="hero">
     <div class="wrap">
       <div class="slate mono">
-        <span class="rec"><i></i>REC</span>
-        <span id="tc">00:00:00:00</span>
-        <span>24fps</span>
+        <span>&#9654; PLAY</span>
+        <span id="tc">0:00:00</span>
+        <span>SP</span>
         <span>PORTFOLIO 2026</span>
       </div>
       <h1>AoKi<sup>104</sup></h1>
@@ -196,7 +205,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <section id="about" class="about">
     <div class="wrap">
       <div class="head">
-        <span class="no mono">01</span>
+        <span class="no mono">CH 01</span>
         <h2>About<small>プロフィール</small></h2>
       </div>
       <div class="cols">
@@ -221,7 +230,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <section id="works">
     <div class="wrap">
       <div class="head">
-        <span class="no mono">02</span>
+        <span class="no mono">CH 02</span>
         <h2>Works<small>制作実績</small></h2>
       </div>
       <ol class="films">
@@ -253,7 +262,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <section id="news">
     <div class="wrap">
       <div class="head">
-        <span class="no mono">03</span>
+        <span class="no mono">CH 03</span>
         <h2>News<small>ニュース・出演歴</small></h2>
       </div>
       <ol class="cue news">
@@ -270,17 +279,22 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         <li><span class="tc mono">2025.09.02</span><a href="https://radiko.jp/share/?sid=INT&amp;t=20250902000000&amp;noreload=1"><p class="title">ラジオ出演</p></a></li>
         <li><span class="tc mono">2025.08.10</span><div><p class="title">秋葉原UDXシアター 上映</p></div></li>
       </ol>
+    </div>
+  </section>
 
+  <section id="posts">
+    <div class="wrap">
+      <div class="head">
+        <span class="no mono">CH 04</span>
+        <h2>Posts<small>X の最新投稿</small></h2>
+      </div>
       <div class="cols">
         <div class="body">
-          <h3>COLLABORATORS</h3>
-          <ul class="people">
-            <li><a href="https://twitter.com/luxaios">LUCY</a></li>
-            <li><a href="https://twitter.com/RBLabQ">RelaxBeatsLab™︎</a></li>
-            <li><a href="https://twitter.com/neco1751662">neco</a></li>
-            <li><a href="https://twitter.com/doerstokyo342">こば@AIBridge Lab</a></li>
-            <li><a href="https://twitter.com/naooon68">naoon</a></li>
-          </ul>
+          <div class="xfeed">
+            <a class="twitter-timeline" href="https://twitter.com/aoki_tosh" data-theme="dark" data-tweet-limit="4" data-chrome="noheader nofooter noborders transparent" data-dnt="true" data-lang="ja">@aoki_tosh の最新投稿</a>
+          </div>
+          <p class="xnote">投稿が表示されないときは、X で直接ご覧ください。</p>
+          <a class="btn" href="https://x.com/aoki_tosh" target="_blank" rel="noopener">&#9654; X @aoki_tosh</a>
         </div>
       </div>
     </div>
@@ -289,7 +303,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   <section id="contact" class="contact">
     <div class="wrap">
       <div class="head">
-        <span class="no mono">04</span>
+        <span class="no mono">CH 05</span>
         <h2>Contact<small>ご依頼・ご相談</small></h2>
       </div>
       <div class="cols">
@@ -319,19 +333,28 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 </footer>
 
 <script>
-// Running timecode in the hero slate: counts frames at 24fps from page load.
+// Tape counter in the hero: elapsed time since the page opened.
 (function () {
   var el = document.getElementById('tc');
   if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var start = performance.now();
+  var start = Date.now();
   function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function tick(now) {
-    var f = Math.floor((now - start) / 1000 * 24);
-    var s = Math.floor(f / 24);
-    el.textContent = pad(Math.floor(s / 3600) % 100) + ':' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60) + ':' + pad(f % 24);
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
+  setInterval(function () {
+    var t = Math.floor((Date.now() - start) / 1000);
+    el.textContent = Math.floor(t / 3600) % 10 + ':' + pad(Math.floor(t / 60) % 60) + ':' + pad(t % 60);
+  }, 1000);
+})();
+
+// X timeline: loaded only when the page is not inside an embedding frame.
+(function () {
+  var framed = false;
+  try { framed = window.self !== window.top; } catch (e) { framed = true; }
+  if (framed) return;
+  var sc = document.createElement('script');
+  sc.async = true;
+  sc.src = 'https://platform.twitter.com/widgets.js';
+  sc.charset = 'utf-8';
+  document.body.appendChild(sc);
 })();
 
 // YouTube thumbnails: fall back to the standard size when no HD image exists, hide if blocked.
