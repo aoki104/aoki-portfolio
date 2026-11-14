@@ -322,15 +322,11 @@ h3 { margin-top: clamp(30px, 5vw, 52px); }
 }
 
 /* Hero link, sticker links, counter */
-.dialog .site { margin: 10px 0 0; font-family: var(--pixel); font-size: 14px; }
-.dialog .site a { text-decoration: none; background: linear-gradient(transparent 58%, var(--accent) 0); padding: 0 2px; }
-.dialog .site a:hover { background: var(--accent); }
 a.sticker { transition: transform .15s steps(2, end); }
 a.sticker.ncg:hover { transform: rotate(8deg) scale(1.08); }
 a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 .counter { background: var(--term); color: var(--accent); border-color: var(--edge-dark) var(--edge-light) var(--edge-light) var(--edge-dark); }
 .counter .tray-l { color: #fff; }
-.counter small { font-family: var(--body); font-size: 10px; color: var(--pink); }
 #hits { font-variant-numeric: tabular-nums; min-width: 11.5ch; text-align: right; }
 
 /* Bubbles, one size up */
@@ -339,23 +335,28 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 .whale .bubble { max-width: min(320px, 78vw); bottom: calc(100% + 18px); }
 .peek .bubble { bottom: calc(100% + 16px); }
 
-/* Error 104 */
-.err { position: fixed; left: 50%; top: 46%; z-index: 40; width: min(380px, 86vw); transform: translate(-50%, -50%); pointer-events: none; display: none; background: var(--win); border: 2px solid; border-color: var(--edge-light) var(--edge-dark) var(--edge-dark) var(--edge-light); box-shadow: 0 0 0 1px var(--ink), 10px 10px 0 rgba(42, 37, 82, .45); }
-.err.on { display: block; animation: errpop .9s steps(1, end); }
-@keyframes errpop {
-  0% { transform: translate(-50%, -50%) translate(-14px, 6px); filter: hue-rotate(120deg); }
-  8% { transform: translate(-50%, -50%) translate(10px, -4px); }
-  16%, 100% { transform: translate(-50%, -50%); filter: none; }
-}
-.err .bar { background: linear-gradient(90deg, #2a2cff, #15123a); }
-.err-body { display: flex; gap: 14px; align-items: center; padding: 18px 18px 8px; }
-.err-x { flex: none; width: 38px; height: 38px; border-radius: 50%; background: #ff3b6b; color: #fff; border: 2px solid var(--ink); display: grid; place-items: center; font-family: var(--display); font-size: 14px; }
-.err-msg { margin: 0; font-size: 15px; line-height: 1.6; }
-.err-ok { display: block; width: 96px; margin: 8px auto 16px; padding: 4px 0; text-align: center; font-family: var(--pixel); font-size: 14px; background: var(--win); border: 2px solid; border-color: var(--edge-light) var(--edge-dark) var(--edge-dark) var(--edge-light); box-shadow: 0 0 0 1px var(--ink); }
-
 @media (max-width: 720px) {
   .bubble { font-size: 14.5px; padding: 9px 12px 8px; }
   .counter { order: 5; }
+}
+
+/* Header fits three rows at most on phones; tagline stays on one line */
+.trays { display: flex; gap: 8px; align-items: center; }
+@media (max-width: 720px) {
+  header.site .wrap { gap: 6px 6px; padding-top: 5px; padding-bottom: 5px; min-height: 0; }
+  .brand { font-size: 9px; padding: 6px 8px 4px; }
+  nav.main { flex-wrap: nowrap; gap: 4px; }
+  nav.main a { font-size: 11px; padding: 2px 7px; white-space: nowrap; }
+  .trays { flex-basis: 100%; gap: 6px; flex-wrap: nowrap; }
+  .tray { font-size: 11px; padding: 2px 8px; gap: 6px; white-space: nowrap; }
+  .counter { order: 0; flex: 1 1 auto; justify-content: space-between; min-width: 0; }
+  #hits { min-width: 0; }
+  .dialog-body { gap: 10px; padding: 18px 14px 6px; }
+  .dialog-body .q { width: 32px; height: 32px; font-size: 19px; }
+  .copy { font-size: min(19px, 4.4vw); white-space: nowrap; }
+}
+@media (max-width: 359px) {
+  .counter .tray-l { display: none; }
 }
 </style>
 </head>
@@ -370,8 +371,10 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
       <a href="#news">NEWS</a>
       <a class="cta" href="#contact">CONTACT</a>
     </nav>
-    <span class="tray mono" aria-hidden="true"><i class="led"></i><span class="tray-t">CODING</span><span id="clock">--:--</span></span>
-    <span class="tray mono counter" title="盛ってます"><span class="tray-l">VISITORS</span><span id="hits">104,104,104,104</span><small>※盛ってます</small></span>
+    <div class="trays">
+      <span class="tray mono" aria-hidden="true"><i class="led"></i><span class="tray-t">CODING</span><span id="clock">--:--</span></span>
+      <span class="tray mono counter" aria-hidden="true"><span class="tray-l">VISITORS</span><span id="hits">104,104,104,104</span></span>
+    </div>
   </div>
 </header>
 
@@ -388,7 +391,6 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
             <span class="q" aria-hidden="true">!</span>
             <div>
               <p class="copy">生成AI × 映像制作。<br>SHINE RAW. 原石のまま輝け。</p>
-              <p class="site"><a href="https://ncg-entertainment.com" target="_blank" rel="noopener">ncg-entertainment.com</a></p>
               <p class="who">青木俊樹 / Aoki Toshiki<br>NCG／CCO（最高クリエイティブ責任者）<br>NCG ENTERTAINMENT／プロデューサー</p>
             </div>
           </div>
@@ -871,7 +873,6 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     var dice = Math.random();
     if (dice < .3) return any([
       'クジラですが、容量は 1.44MB です。',
-      'さっきのエラー 104、仕様です。',
       '訪問者数、ちょっと盛ってます。ちょっとだけ。',
       'レンダリング待ちの間に潮を吹くのが趣味です。',
       'AIに「いい感じで」と頼んだら、ぼくが生まれました。',
@@ -953,31 +954,6 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   setInterval(function () { if (!document.hidden) { n += 1 + Math.floor(Math.random() * 104); show(); } }, 800);
 })();
 
-// Error 104: a dialog flashes up in the middle of the screen now and then, and is gone again.
-(function () {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var MSG = [
-    'エラー 104：クリエイティブが止まりません。',
-    'エラー 104：アイデアがメモリを超えました。',
-    'エラー 104：かっこよさを検出しました。',
-    'エラー 104：原石が光りすぎています。',
-    'エラー 104：締切が見つかりません。'
-  ];
-  var box = document.createElement('div'); box.className = 'err'; box.setAttribute('aria-hidden', 'true');
-  box.innerHTML = '<div class="bar"><span>Error 104</span></div><div class="err-body"><span class="err-x">X</span><p class="err-msg"></p></div><span class="err-ok">OK</span>';
-  document.body.appendChild(box);
-  var msg = box.querySelector('.err-msg');
-  function pop() {
-    if (!document.hidden) {
-      msg.textContent = MSG[Math.floor(Math.random() * MSG.length)];
-      box.style.left = (38 + Math.random() * 24) + '%'; box.style.top = (36 + Math.random() * 22) + '%';
-      box.classList.add('on');
-      setTimeout(function () { box.classList.remove('on'); }, 1300);
-    }
-    setTimeout(pop, 18000 + Math.random() * 26000);
-  }
-  setTimeout(pop, 9000);
-})();
 </script>
 </body>
 </html>
