@@ -431,6 +431,10 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 .won { animation: wonblink 1.4s steps(1, end) infinite; }
 @keyframes wonblink { 0%, 100% { background: var(--mint); } 50% { background: var(--accent); } }
 @media (prefers-reduced-motion: reduce) { .won { animation: none; } }
+
+/* Anchor jumps stop below the sticky taskbar, whatever its height */
+html { scroll-padding-top: calc(var(--header-h, 72px) + 16px); }
+section, #top { scroll-margin-top: 0; }
 </style>
 </head>
 <body>
@@ -1070,6 +1074,17 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   setInterval(function () { if (!document.hidden) { n += 1 + Math.floor(Math.random() * 104); show(); } }, 800);
 })();
 
+
+// Keep anchor jumps clear of the sticky taskbar: measure it and tell CSS its height.
+(function () {
+  var bar = document.querySelector('header.site');
+  if (!bar) return;
+  function measure() { document.documentElement.style.setProperty('--header-h', bar.offsetHeight + 'px'); }
+  measure();
+  window.addEventListener('resize', measure);
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+})();
 </script>
 </body>
 </html>
