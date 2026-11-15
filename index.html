@@ -435,6 +435,19 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 /* Anchor jumps stop below the sticky taskbar, whatever its height */
 html { scroll-padding-top: calc(var(--header-h, 72px) + 16px); }
 section, #top { scroll-margin-top: 0; }
+
+/* SNS buttons beside the name: a column on wide screens, a row on phones */
+.hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px 28px; }
+.hero-sns { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: none; }
+.hero-sns a { display: block; min-width: 168px; padding: 7px 16px 6px; text-align: center; font-family: var(--pixel); font-size: 15px; letter-spacing: .04em; text-decoration: none; background: var(--win); border: 2px solid; border-color: var(--edge-light) var(--edge-dark) var(--edge-dark) var(--edge-light); box-shadow: 0 0 0 1px var(--ink), 5px 5px 0 rgba(42, 37, 82, .35); }
+.hero-sns a:hover { background: var(--accent); }
+.hero-sns a:active { border-color: var(--edge-dark) var(--edge-light) var(--edge-light) var(--edge-dark); }
+@media (max-width: 720px) {
+  .hero-top { flex-direction: column; gap: 16px; }
+  .hero-sns { flex-direction: row; flex-wrap: nowrap; gap: 6px; width: 100%; }
+  .hero-sns li { flex: 1 1 auto; }
+  .hero-sns a { min-width: 0; padding: 6px 4px 5px; font-size: min(11px, 2.9vw); letter-spacing: 0; box-shadow: 0 0 0 1px var(--ink), 3px 3px 0 rgba(42, 37, 82, .35); white-space: nowrap; }
+}
 </style>
 </head>
 <body>
@@ -473,7 +486,15 @@ section, #top { scroll-margin-top: 0; }
   <div class="hero">
     <canvas class="mosaic" data-live aria-hidden="true"></canvas>
     <div class="wrap">
-      <h1><span class="slab">AoKi<sup>104</sup></span></h1>
+      <div class="hero-top">
+        <h1><span class="slab">AoKi<sup>104</sup></span></h1>
+        <ul class="hero-sns">
+          <li><a href="https://twitter.com/aoki_tosh" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://www.instagram.com/aoki_tosh/" target="_blank" rel="noopener">INSTAGRAM</a></li>
+          <li><a href="https://www.tiktok.com/@aoki_tosh" target="_blank" rel="noopener">TIKTOK</a></li>
+          <li><a href="https://note.com/aok_tosh/n/n0d4f0b4db2de" target="_blank" rel="noopener">NOTE</a></li>
+        </ul>
+      </div>
       <div class="desk">
         <div class="dialog">
           <div class="bar"><span>AoKi104.exe</span></div>
