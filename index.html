@@ -360,7 +360,7 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 }
 
 /* Loading screen: three seconds, then it slides away. Hides itself by CSS alone, so it can never get stuck. */
-#loader { position: fixed; inset: 0; z-index: 100; background: var(--blue); color: #fff; display: grid; place-content: center; justify-items: center; gap: 20px; animation: ld-out .6s steps(8, end) 3s forwards; }
+#loader { position: fixed; inset: 0; z-index: 100; background: var(--blue); color: #fff; display: grid; place-content: center; justify-items: center; gap: 20px; animation: ld-out .6s steps(8, end) 2s forwards; }
 @keyframes ld-out { to { transform: translateY(-100%); visibility: hidden; } }
 .ld-stage { position: relative; width: min(560px, 88vw); height: 230px; overflow: hidden; }
 .ld-sea { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; z-index: 2; background: repeating-linear-gradient(90deg, #fff 0 16px, transparent 16px 32px) 0 0 / 32px 8px repeat-x, linear-gradient(#7d86ff, #7d86ff) 0 8px / 100% 100% no-repeat; animation: ld-wave .8s steps(4, end) infinite; }
@@ -377,30 +377,71 @@ a.sticker.grp:hover { transform: rotate(-5deg) scale(1.08); }
 .ld-text { margin: 0; font-family: var(--display); font-size: clamp(12px, 3.4vw, 16px); letter-spacing: .08em; }
 .ld-text span { animation: cur 1s steps(2, end) infinite; }
 .ld-bar { width: min(340px, 74vw); height: 26px; padding: 3px; border: 3px solid #fff; }
-.ld-bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--accent) 0 12px, transparent 12px 16px); animation: ld-fill 3s steps(20, end) forwards; }
+.ld-bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--accent) 0 12px, transparent 12px 16px); animation: ld-fill 2s steps(20, end) forwards; }
 @keyframes ld-fill { to { width: 100%; } }
 .ld-pct { margin: 0; font-family: var(--display); font-size: 12px; color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
-  #loader { animation: ld-hide 0s linear 3s forwards; }
+  #loader { animation: ld-hide 0s linear 2s forwards; }
   @keyframes ld-hide { to { visibility: hidden; } }
   .ld-sea, .ld-whale canvas, .ld-dolphin, .ld-text span { animation: none; }
   .ld-dolphin { left: 62%; bottom: 110px; transform: rotate(60deg); }
   .ld-bar i { animation-timing-function: linear; }
 }
+
+/* Loader patterns. A: the dolphin leaps over the whale. B: the dolphin passes files to the whale.
+   C: the dolphin chases the whale across the screen. */
+.ld-text b { font-weight: 400; display: none; }
+.ld-a .t-a, .ld-b .t-b, .ld-c .t-c { display: inline; }
+.ld-files { display: none; }
+
+#loader.ld-b { background: var(--term); }
+.ld-b .ld-sea { display: none; }
+.ld-b .ld-dolphin { left: 3%; bottom: 46px; animation: ld-nod .5s steps(2, end) infinite; }
+@keyframes ld-nod { 50% { transform: translateY(-8px); } }
+.ld-b .ld-whale { left: auto; right: 2%; bottom: 46px; transform: none; }
+.ld-b .ld-files { display: block; }
+.ld-files i { position: absolute; left: 22%; bottom: 84px; width: 16px; height: 16px; background: var(--accent); border: 2px solid #fff; opacity: 0; animation: ld-file 1s steps(10, end) infinite; }
+.ld-files i:nth-child(2) { animation-delay: .2s; background: var(--pink); }
+.ld-files i:nth-child(3) { animation-delay: .4s; }
+.ld-files i:nth-child(4) { animation-delay: .6s; background: var(--mint); }
+.ld-files i:nth-child(5) { animation-delay: .8s; }
+@keyframes ld-file {
+  0% { left: 22%; bottom: 84px; opacity: 1; }
+  50% { left: 40%; bottom: 160px; opacity: 1; }
+  100% { left: 58%; bottom: 84px; opacity: 1; }
+}
+
+#loader.ld-c { background: var(--pink); color: var(--ink); }
+.ld-c .ld-bar { border-color: var(--ink); }
+.ld-c .ld-bar i { background: repeating-linear-gradient(90deg, var(--blue) 0 12px, transparent 12px 16px); }
+.ld-c .ld-pct { color: var(--blue); }
+.ld-c .ld-sea { background: repeating-linear-gradient(90deg, var(--ink) 0 16px, transparent 16px 32px) 0 0 / 32px 8px repeat-x, linear-gradient(#fff, #fff) 0 8px / 100% 100% no-repeat; }
+.ld-c .ld-whale { left: -45%; transform: scaleX(-1); animation: ld-swim 2s steps(24, end) infinite; }
+@keyframes ld-swim { from { left: -45%; } to { left: 100%; } }
+.ld-c .ld-dolphin { bottom: 64px; left: -95%; transform: rotate(90deg); animation: ld-chase 2s steps(24, end) infinite; }
+@keyframes ld-chase { from { left: -95%; } to { left: 58%; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-files i { animation: none; opacity: 1; left: 40%; bottom: 150px; }
+  .ld-c .ld-whale { animation: none; left: 46%; }
+  .ld-c .ld-dolphin { animation: none; left: 8%; }
+}
 </style>
 </head>
 <body>
 
-<div id="loader" aria-hidden="true">
+<div id="loader" class="ld-a" aria-hidden="true">
   <div class="ld-stage">
     <div class="ld-dolphin"></div>
     <div class="ld-whale"></div>
+    <div class="ld-files"><i></i><i></i><i></i><i></i><i></i></div>
     <div class="ld-sea"></div>
   </div>
-  <p class="ld-text">NOW LOADING<span>...</span></p>
+  <p class="ld-text"><b class="t-a">NOW LOADING</b><b class="t-b">COPYING RAW DATA</b><b class="t-c">PLEASE WAIT</b><span>...</span></p>
   <div class="ld-bar"><i></i></div>
   <p class="ld-pct" id="ld-pct">0%</p>
 </div>
+<script>document.getElementById('loader').className = 'ld-' + 'abc'.charAt(Math.floor(Math.random() * 3));</script>
 
 <header class="site">
   <div class="wrap">
@@ -804,20 +845,28 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   var el = document.getElementById('term');
   if (!el) return;
   var lines = [
+    '> t2v --model seedance-2.0 --seed 104',
+    '  prompt: "夏祭り, 花火, 35mm, 逆光"',
+    '  sampling 30 steps / cfg 7.5 / 24fps / 5s',
+    '  denoise ▓▓▓▓▓▓▓░░░ 72%',
+    '✓ clip_0104.mp4 1080p (12.4s)',
+    '> i2v --first-frame key01.png --motion 0.6',
+    '  lora: analog_film_v3 @ 0.8',
+    '+ controlnet: depth + pose',
+    '✓ shot 12/48 approved',
+    '> upscale x2 | interpolate 60fps',
+    '  vram 22.1GB / 24GB ... ぎりぎり',
+    '✓ master_4k.mov exported',
+    '> lipsync vocal.wav --face-track',
+    '+ tts: ja-JP / emotion=calm',
+    '✓ sync offset 0.02s',
     '> もっとグラフィックに。ダサカッコよく',
-    '  generating hero.css ...',
     "+ h1 { font-family: 'Press Start 2P'; }",
     '+ .mosaic { fill: checker(#2a2cff); }',
     '✓ build 0.8s',
-    '> 文字は角ばったドットで',
-    "+ body { font-family: 'DotGothic16'; }",
-    '✓ deploy → aoki-portfolio',
     '> サムネイルを押したらその場で再生',
     "+ film.on('click', play(youtubeId));",
-    '✓ 10 works linked',
-    '> 色はグリーン R18 G232 B52',
-    '+ --accent: #12e834;',
-    '✓ ship it'
+    '✓ deploy → aoki-portfolio'
   ];
   var KEEP = 7;
   function row(text) {
@@ -913,18 +962,26 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     ld.querySelector('.ld-dolphin').appendChild(sprite(DOLPHIN, small ? 4 : 5, 0));
     var pct = document.getElementById('ld-pct'), t0 = Date.now();
     var run = setInterval(function () {
-      var v = Math.min(100, Math.round((Date.now() - t0) / 30));
+      var v = Math.min(100, Math.round((Date.now() - t0) / 20));
       pct.textContent = v + '%';
       if (v >= 100) clearInterval(run);
     }, 60);
-    setTimeout(function () { ld.remove(); }, 3800);
+    setTimeout(function () { ld.remove(); }, 2800);
   }
   function any(a) { return a[Math.floor(Math.random() * a.length)]; }
   function now() { var d = new Date(), h = d.getHours(), m = d.getMinutes(); return { h: h, t: (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m }; }
   function whaleSays() {
     var n = now(), h = n.h, t = n.t, lines;
     var dice = Math.random();
-    if (dice < .3) return any([
+    if (dice < .45) return any([
+      'プロンプトは短く、締切は長く。それが理想です。',
+      'ぼくの潮は 24fps で出ています。',
+      'GPUが足りないので、気合いでレンダリングしてます。',
+      '「あと1回だけ生成」を 104 回やりました。',
+      '修正は「ちょっとだけ」が一番こわい。',
+      'AIは寝ない。ディレクターも寝ない。寝てください。',
+      'シード値を忘れました。あの神カット、二度と出ません。',
+      '指が6本？ それは仕様じゃなくて個性です。',
       'クジラですが、容量は 1.44MB です。',
       '訪問者数、ちょっと盛ってます。ちょっとだけ。',
       'レンダリング待ちの間に潮を吹くのが趣味です。',
@@ -933,7 +990,7 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
       'クジラは哺乳類。このサイトは HTML。',
       '締切は泳いで逃げても追ってきます。'
     ]);
-    if (dice < .48) return any(['ご依頼は Contact からどうぞ。', 'Works は押すとその場で再生できます。', 'このサイト、AIと会話しながら作ってます。']);
+    if (dice < .6) return any(['ご依頼は Contact からどうぞ。', 'Works は押すとその場で再生できます。', 'このサイト、AIと会話しながら作ってます。']);
     if (h >= 5 && h < 10) lines = ['おはようございます。朝イチの生成、回してます。', '朝の ' + t + '。今日もいい絵が出ますように。'];
     else if (h >= 10 && h < 12) lines = ['午前 ' + t + '。レンダリング日和です。', 'こんにちは。午前中は頭が冴えますね。'];
     else if (h >= 12 && h < 14) lines = ['お昼ですね。ごはん中もAIは働いてます。', t + '。ランチのお供に Works をどうぞ。'];
@@ -946,8 +1003,8 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
   function dolphinSays() {
     var n = now(), h = n.h;
     var dice = Math.random();
-    if (dice < .35) return any(['イルカがいるか。', 'バグじゃないよ、イルカだよ。', 'ウィンドウの裏、意外と広い。', '背びれ、寝ぐせです。', 'Ctrl+S 押した？', 'クジラさん、盛りすぎ。', '泳いで出社しました。']);
-    if (dice < .55) return any(['見てる？', 'Works 見た？', 'いま ' + n.t + ' だよ', 'やっほー']);
+    if (dice < .6) return any(['プロンプトに「いい感じで」は禁止です。', '学習データ、ほぼ魚でした。', 'ぼくの解像度、16ピクセル。', 'シード値は 104 がおすすめ。', '納期？ 波に流しました。', 'ハルシネーションじゃないよ、実在するよ。', 'AIに仕事を奪われたイルカです。', '背景、動きすぎじゃない？', '定時なので、クジラさんより先に帰ります。', 'それ、もう1回生成したら直るよ。たぶん。', 'イルカがいるか。', 'バグじゃないよ、イルカだよ。', 'ウィンドウの裏、意外と広い。', '背びれ、寝ぐせです。', 'Ctrl+S 押した？', 'クジラさん、盛りすぎ。', '泳いで出社しました。']);
+    if (dice < .72) return any(['見てる？', 'Works 見た？', 'いま ' + n.t + ' だよ', 'やっほー']);
     if (h >= 5 && h < 11) return any(['おはよ！', '朝だよ！']);
     if (h >= 11 && h < 17) return any(['こんにちは！', 'お昼たべた？']);
     if (h >= 17 && h < 23) return any(['こんばんは！', 'おつかれ！']);
@@ -964,7 +1021,7 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     talk.textContent = whaleSays(); box.classList.add('say');
     setTimeout(function () { box.classList.remove('say'); }, 6000);
   }
-  setTimeout(say, 4800);
+  setTimeout(say, 3600);
   (function loop() { setTimeout(function () { say(); loop(); }, 13000 + Math.random() * 9000); })();
   if (still) return;
   setInterval(function () {
@@ -990,10 +1047,11 @@ document.querySelectorAll('img[data-yt]').forEach(function (img) {
     sec.appendChild(el);
     busy = true;
     requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add('up'); }); });
-    setTimeout(function () { el.classList.remove('up'); }, 2600 + Math.random() * 1400);
-    setTimeout(function () { el.remove(); busy = false; }, 5200);
+    var stay = 5200 + Math.random() * 2600;
+    setTimeout(function () { el.classList.remove('up'); }, stay);
+    setTimeout(function () { el.remove(); busy = false; }, stay + 1100);
   }
-  setTimeout(function loop() { peek(); setTimeout(loop, 4500 + Math.random() * 5000); }, 5200);
+  setTimeout(function loop() { peek(); setTimeout(loop, 1800 + Math.random() * 1800); }, 3400);
 })();
 
 // Visitor counter: a gag. It starts absurdly high and keeps climbing; the label admits it.
